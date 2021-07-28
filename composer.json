@@ -1,0 +1,33 @@
+{
+    "name": "laka/core",
+    "type": "library",
+    "description": "Laka library core",
+    "authors": [
+        {
+            "name": "hthang369",
+            "email": "thangtran3690@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "laravelcollective/html": "^6.2"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Laka\\Core\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laka\\Core\\LakaCoreServiceProvider"
+            ]
+        }
+    }
+}
