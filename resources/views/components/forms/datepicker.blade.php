@@ -2,7 +2,7 @@
     $options = $attributes->class($class)->merge(['autocomplete' => 'off'])->getAttributes();
 @endphp
 <div id="datepicker" class="input-group date">
-    {!! Form::text($name, null, $options) !!}
+    {!! Form::text($name, $value, $options) !!}
 </div>
 @once
 @push('styles')
