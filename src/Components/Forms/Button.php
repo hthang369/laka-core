@@ -13,12 +13,20 @@ class Button extends Component
      */
     public $componentName = 'form-button';
 
+    public $label;
+    public $type;
+    public $class;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($label, $type = 'button', $variant = 'primary', $size = null)
     {
+        $this->label = $label;
+        $this->type = $type;
+        $btnSize = !is_null($size) ? "btn-{$size}" : '';
+        $this->class = ['btn', "btn-{$variant}", $btnSize];
     }
 }

@@ -1,5 +1,5 @@
 @php
-    $options = $attributes->class($class)->merge(['autocomplete' => 'off'])->getAttributes();
+    $options = $attributes->class($class)->merge(['autocomplete' => 'off', 'readonly'])->getAttributes();
 @endphp
 <div id="datepicker" class="input-group date">
     {!! Form::text($name, $value, $options) !!}

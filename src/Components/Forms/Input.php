@@ -29,7 +29,7 @@ class Input extends Component
      * @return void
      */
     public function __construct(
-        string $type = '',
+        string $type = 'text',
         string $name = '',
         $icon = null,
         bool $prepent = false,

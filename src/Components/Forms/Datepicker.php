@@ -24,7 +24,7 @@ class Datepicker extends Component
      *
      * @return void
      */
-    public function __construct($name, $dateFormat = null, $size = null, $value = null)
+    public function __construct($name, $dateFormat = 'dd/mm/yyyy', $size = null, $value = null)
     {
         $this->name = $name;
         $this->class = Classes::get([
