@@ -10,7 +10,9 @@
     ],
     "license": "MIT",
     "require": {
-        "laravelcollective/html": "^6.2"
+        "laravelcollective/html": "^6.2",
+        "jenssegers/agent": "^2.6",
+        "intervention/image": "^2.6"
     },
     "autoload": {
         "files": [

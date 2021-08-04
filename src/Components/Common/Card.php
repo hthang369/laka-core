@@ -7,10 +7,13 @@ use Laka\Core\Helpers\Classes;
 
 class Card extends Component
 {
-    public $type;
-    public $dismissible;
-    public $message;
+    public $title;
+    public $header;
+    public $footer;
+    public $noBody;
+    public $bodyAttr;
     public $attrs;
+    public $prefix;
 
     /**
      * The component alias name.
@@ -20,23 +23,21 @@ class Card extends Component
     public $componentName = 'card';
 
     public function __construct(
-        $type = '',
-        $message = '',
+        $title = '',
+        $header = '',
+        $footer = '',
+        $image = '',
         $class = '',
-        $dismissible = false
+        $noBody = false,
+        $bodyClass = ''
     )
     {
-        $this->type = $type ?: '';
-        $this->dismissible = $dismissible ?: false;
-        $this->message = $message ?: '';
-        $this->attrs = [
-            'class' => $class ?: '',
-        ];
-        $this->attrs['class'] = Classes::get([
-            $this->type ? 'alert alert-' . $this->type : '',
-            $this->dismissible ? 'alert-dismissible fade show' : '',
-            $this->attrs['class']
-        ]);
-        $this->attrs = \array_filter($this->attrs);
+        $this->prefix = config('laka-core.prefix');
+        $this->header = $header;
+        $this->title = $title;
+        $this->footer = $footer;
+        $this->noBody = $noBody;
+        $this->bodyAttr = ['class' => Classes::get(['card-body', $bodyClass])];
+        $this->attrs = ['class' => Classes::get(['card', $class])];
     }
 }

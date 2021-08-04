@@ -5,6 +5,16 @@
  */
 
 use Laka\Core\Components\Common\Alert;
+use Laka\Core\Components\Common\Badge;
+use Laka\Core\Components\Common\Breadcrumb;
+use Laka\Core\Components\Common\Card;
+use Laka\Core\Components\Common\CardFooter;
+use Laka\Core\Components\Common\CardHeader;
+use Laka\Core\Components\Common\CardTitle;
+use Laka\Core\Components\Common\Carousel;
+use Laka\Core\Components\Common\Embed;
+use Laka\Core\Components\Common\Headline;
+use Laka\Core\Components\Common\Link;
 use Laka\Core\Components\Forms\Checkbox;
 use Laka\Core\Components\Forms\Datepicker;
 use Laka\Core\Components\Forms\Group;
@@ -77,6 +87,46 @@ return [
         'alert' => [
             'view'  => 'components.common.alert',
             'class' => Alert::class
+        ],
+        'card' => [
+            'view'  => 'components.common.card',
+            'class' => Card::class
+        ],
+        'card-header' => [
+            'view'  => 'components.common.card-header',
+            'class' => CardHeader::class
+        ],
+        'card-title' => [
+            'view'  => 'components.common.card-title',
+            'class' => CardTitle::class
+        ],
+        'card-footer' => [
+            'view'  => 'components.common.card-footer',
+            'class' => CardFooter::class
+        ],
+        'badge' => [
+            'view'  => 'components.common.badge',
+            'class' => Badge::class
+        ],
+        'breadcrumb' => [
+            'view'  => 'components.common.breadcrumb',
+            'class' => Breadcrumb::class
+        ],
+        'carousel' => [
+            'view'  => 'components.common.carousel',
+            'class' => Carousel::class
+        ],
+        'embed' => [
+            'view'  => 'components.common.embed',
+            'class' => Embed::class
+        ],
+        'headline' => [
+            'view'  => 'components.common.headline',
+            'class' => Headline::class
+        ],
+        'link' => [
+            'view'  => 'components.common.link',
+            'class' => Link::class
         ],
 
     ],
