@@ -1,6 +1,6 @@
 <div {!! $attributes->merge($attrs) !!}{!! $attrs2 !!}>
   @if(isset($image['src']))
-    <x-image :all="$image"/>
+    <x-image {{ attributes_get($image) }}"/>
   @elseif(isset($icon))
     @icon($icon . $mediaObjectClass ?? '')
   @endif
@@ -9,7 +9,7 @@
 
   <div{!! $body['attrs'] !!}>
     @if(!empty($headline))
-      <x-headline :all="$headline"/>
+      <x-headline {{ attributes_get($headline) }} />
     @endif
 
     {!! $text ?? '' !!}

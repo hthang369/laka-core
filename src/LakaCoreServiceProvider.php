@@ -21,6 +21,12 @@ class LakaCoreServiceProvider extends ServiceProvider
         $this->registerFormComponents();
 
         $this->loadHelperFile();
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../../config/config.php' => config_path('laka-core.php'),
+            ], 'config');
+        }
     }
 
     private function loadHelperFile()

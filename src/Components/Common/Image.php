@@ -30,7 +30,7 @@ class Image extends Component
         $this->height = $height ?? '';
         $this->fit = $fit ?? '';
         $this->lazyload = $lazyload === false ? $lazyload : $all['lazyload'] ?? true;
-        $this->attrs2 = Attributes::get($all ?? [], [
+        $this->attrs2 = attributes_get($all ?? [], [
             'width', 'height', 'class', 'src', 'id', 'alt'
         ]);
         $this->attrs = [

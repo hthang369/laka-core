@@ -65,6 +65,6 @@ class Svg extends Component
             $this->attrs['viewBox'] = '0 0 16 16';
         }
 
-        return view('components.svg');
+        return parent::render();
     }
 }

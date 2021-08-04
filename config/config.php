@@ -15,6 +15,9 @@ use Laka\Core\Components\Common\Carousel;
 use Laka\Core\Components\Common\Embed;
 use Laka\Core\Components\Common\Headline;
 use Laka\Core\Components\Common\Link;
+use Laka\Core\Components\Common\Media;
+use Laka\Core\Components\Common\Image;
+use Laka\Core\Components\Common\Svg;
 use Laka\Core\Components\Forms\Checkbox;
 use Laka\Core\Components\Forms\Datepicker;
 use Laka\Core\Components\Forms\Group;
@@ -127,6 +130,18 @@ return [
         'link' => [
             'view'  => 'components.common.link',
             'class' => Link::class
+        ],
+        'media' => [
+            'view'  => 'components.common.media',
+            'class' => Media::class
+        ],
+        'image' => [
+            'view'  => 'components.common.image',
+            'class' => Image::class
+        ],
+        'svg' => [
+            'view'  => 'components.common.svg',
+            'class' => Svg::class
         ],
 
     ],

@@ -29,7 +29,7 @@ class Media extends Component
         $this->image = $image ?? [];
         $this->body = $body ?? [];
         $this->text = $text ?? '';
-        $this->attrs2 = Attributes::get($all ?? [], [
+        $this->attrs2 = attributes_get($all ?? [], [
             'class', 'body', 'text', 'image', 'headline'
         ]);
         $this->attrs['class'] = Classes::get([
@@ -44,7 +44,7 @@ class Media extends Component
             'media-body',
             $this->body['class'] ?? '',
         ]);
-        $this->body['attrs'] = Attributes::get($this->body);
+        $this->body['attrs'] = attributes_get($this->body);
         $this->attrs = \array_filter($this->attrs);
 
         $merge = ['image', 'headline', 'excerpt'];
@@ -58,10 +58,5 @@ class Media extends Component
         if (isset($this->excerpt['show']) && isset($this->excerpt['text'])) {
             $this->text = $this->excerpt['text'];
         }
-    }
-
-    public function render()
-    {
-        return view('components.media');
     }
 }
