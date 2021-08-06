@@ -41,7 +41,8 @@ class Input extends Component
     {
         $this->type = $type;
         $this->name = $name;
-        $this->class = Classes::get([$class, !$size ?: sprintf('form-control-%s', $size)]);
+        $classSize = $size ? sprintf('form-control-%s', $size) : '';
+        $this->class = Classes::get([$class, $classSize]);
         $this->prepent = $prepent;
         $this->icon = $icon;
         $this->help = $help;
