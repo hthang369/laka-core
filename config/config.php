@@ -25,6 +25,7 @@ use Laka\Core\Components\Forms\Input;
 use Laka\Core\Components\Forms\Label;
 use Laka\Core\Components\Forms\Radio;
 use Laka\Core\Components\Forms\Select;
+use Laka\Core\Components\Forms\Textarea;
 use Laka\Core\Components\Tables\Pagination;
 use Laka\Core\Components\Tables\Table;
 use Laka\Core\Components\Tables\TableColumn;
@@ -62,6 +63,10 @@ return [
         'form-radio' => [
             'view'  => 'components.forms.radio',
             'class' => Radio::class
+        ],
+        'form-textarea' => [
+            'view'  => 'components.forms.textarea',
+            'class' => Textarea::class
         ],
         'table' => [
             'view'  => 'components.tables.table',
