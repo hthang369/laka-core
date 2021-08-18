@@ -7,6 +7,7 @@
 use Laka\Core\Components\Common\Alert;
 use Laka\Core\Components\Common\Badge;
 use Laka\Core\Components\Common\Breadcrumb;
+use Laka\Core\Components\Common\Button;
 use Laka\Core\Components\Common\Card;
 use Laka\Core\Components\Common\CardFooter;
 use Laka\Core\Components\Common\CardHeader;
@@ -20,11 +21,13 @@ use Laka\Core\Components\Common\Image;
 use Laka\Core\Components\Common\Svg;
 use Laka\Core\Components\Forms\Checkbox;
 use Laka\Core\Components\Forms\Datepicker;
+use Laka\Core\Components\Forms\Form;
 use Laka\Core\Components\Forms\Group;
 use Laka\Core\Components\Forms\Input;
 use Laka\Core\Components\Forms\Label;
 use Laka\Core\Components\Forms\Radio;
 use Laka\Core\Components\Forms\Select;
+use Laka\Core\Components\Forms\Textarea;
 use Laka\Core\Components\Tables\Pagination;
 use Laka\Core\Components\Tables\Table;
 use Laka\Core\Components\Tables\TableColumn;
@@ -38,6 +41,10 @@ return [
         'datepicker' => [
             'view'  => 'components.forms.datepicker',
             'class' => Datepicker::class
+        ],
+        'form' => [
+            'view'  => 'components.forms.form',
+            'class' => Form::class
         ],
         'form-group' => [
             'view'  => 'components.forms.group',
@@ -62,6 +69,10 @@ return [
         'form-radio' => [
             'view'  => 'components.forms.radio',
             'class' => Radio::class
+        ],
+        'form-textarea' => [
+            'view'  => 'components.forms.textarea',
+            'class' => Textarea::class
         ],
         'table' => [
             'view'  => 'components.tables.table',
@@ -142,6 +153,10 @@ return [
         'svg' => [
             'view'  => 'components.common.svg',
             'class' => Svg::class
+        ],
+        'button' => [
+            'view'  => 'components.common.button',
+            'class' => Button::class
         ],
 
     ],
