@@ -39,10 +39,11 @@ class Select extends Component
         $this->items = $items;
         $this->name = $name;
         $controlClass = sprintf('%s-control', $custom ? 'custom' : 'form');
+        $classSize = $size ? sprintf('form-control-%s', $size) : '';
         $this->class = Classes::get([
             $controlClass,
             $class,
-            !$size ?: sprintf('%s-%s', $controlClass, $size)
+            $classSize
         ]);
         $this->help = $help;
         $this->groupClass = $groupClass;
