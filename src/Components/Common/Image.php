@@ -16,6 +16,13 @@ class Image extends Component
     public $attrs;
     public $attrs2;
 
+    /**
+     * The component alias name.
+     *
+     * @var string
+     */
+    public $componentName = 'image';
+
     public function __construct(
         $width = [],
         $height = [],
@@ -155,7 +162,7 @@ class Image extends Component
         $publicPlaceholderUrl =$src;
         if (File::exists($publicPlaceholderPath) === false) {
             File::copy(
-                resource_path('views/lbc/assets/images/placeholder.jpg'),
+                dirname(__DIR__, 3).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$src,
                 $publicPlaceholderPath
             );
         }
@@ -207,6 +214,6 @@ class Image extends Component
 
         $this->attrs = \array_filter($this->attrs);
 
-        return view('components.image');
+        return parent::render();
     }
 }
