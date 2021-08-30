@@ -10,7 +10,9 @@ use Laka\Core\Components\Common\Breadcrumb;
 use Laka\Core\Components\Common\Button;
 use Laka\Core\Components\Common\Card;
 use Laka\Core\Components\Common\CardFooter;
+use Laka\Core\Components\Common\CardGroup;
 use Laka\Core\Components\Common\CardHeader;
+use Laka\Core\Components\Common\CardText;
 use Laka\Core\Components\Common\CardTitle;
 use Laka\Core\Components\Common\Carousel;
 use Laka\Core\Components\Common\Embed;
@@ -117,6 +119,14 @@ return [
         'card-footer' => [
             'view'  => 'components.common.card-footer',
             'class' => CardFooter::class
+        ],
+        'card-text' => [
+            'view'  => 'components.common.card-text',
+            'class' => CardText::class
+        ],
+        'card-group' => [
+            'view'  => 'components.common.card-group',
+            'class' => CardGroup::class
         ],
         'badge' => [
             'view'  => 'components.common.badge',

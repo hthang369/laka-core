@@ -14,6 +14,9 @@ class Card extends Component
     public $bodyAttr;
     public $attrs;
     public $prefix;
+    public $imgSrc;
+    public $imgTop;
+    public $imgBottom;
 
     /**
      * The component alias name.
@@ -29,7 +32,10 @@ class Card extends Component
         $image = '',
         $class = '',
         $noBody = false,
-        $bodyClass = ''
+        $bodyClass = '',
+        $imgSrc = '',
+        $imgTop = true,
+        $imgBottom = false
     )
     {
         $this->prefix = config('laka-core.prefix');
@@ -37,6 +43,9 @@ class Card extends Component
         $this->title = $title;
         $this->footer = $footer;
         $this->noBody = $noBody;
+        $this->imgSrc = $imgSrc;
+        $this->imgTop = $imgTop;
+        $this->imgBottom = $imgBottom;
         $this->bodyAttr = ['class' => Classes::get(['card-body', $bodyClass])];
         $this->attrs = ['class' => Classes::get(['card', $class])];
     }

@@ -36,10 +36,7 @@ class Image extends Component
         $this->width = $width ?? '';
         $this->height = $height ?? '';
         $this->fit = $fit ?? '';
-        $this->lazyload = $lazyload === false ? $lazyload : $all['lazyload'] ?? true;
-        $this->attrs2 = attributes_get($all ?? [], [
-            'width', 'height', 'class', 'src', 'id', 'alt'
-        ]);
+        $this->lazyload = $lazyload ?? true;
         $this->attrs = [
             'class' => $class ?? false,
             'src' => $src ?? '',
@@ -101,6 +98,7 @@ class Image extends Component
     private function getImageResizedFolder()
     {
         $folder = $this->getPathInfo();
+
         $hasSlash = substr($folder['dirname'], 0, 1) === '/' ? true : false;
         $folder['dirname'] = $hasSlash ? $folder['dirname'] : '/' . $folder['dirname'];
 
@@ -117,7 +115,7 @@ class Image extends Component
             if ($this->isResize() === false) {
                 return url($this->attrs['src']);
             } else {
-                return url('resize/' . $folder['dirname'] . '/' . $this->getFileName());
+                return url($folder['dirname'] . '/resize/' . $this->getFileName());
             }
         }
     }
@@ -157,17 +155,7 @@ class Image extends Component
 
     private function getPlaceholder()
     {
-        $src = 'placeholder.jpg';
-        $publicPlaceholderPath = public_path($src);
-        $publicPlaceholderUrl =$src;
-        if (File::exists($publicPlaceholderPath) === false) {
-            File::copy(
-                dirname(__DIR__, 3).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$src,
-                $publicPlaceholderPath
-            );
-        }
-
-        return $publicPlaceholderUrl;
+        return 'https://via.placeholder.com/150';
     }
 
     private function buildResizedImage()

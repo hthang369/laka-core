@@ -6,20 +6,28 @@
         <x-dynamic-component :component="$headerCompo" :text="$header" />
     @endif
 
-    @if (!$noBody)
-    <div {!! attributes_get($bodyAttr) !!}>
-        @if (blank($title))
-            {!! $title !!}
-        @else
-            @php($titleCompo = "{$prefix}::common.card-title")
-            <x-dynamic-component :component="$titleCompo" :text="$title" />
-        @endif
+    {{-- @if ($imgSrc && $imgTop)
+        <x-image :src="{{$imgSrc}}" />
+    @endif --}}
 
-        <div class="card-text">
+    @if (!$noBody)
+        <div {!! attributes_get($bodyAttr) !!}>
+            @if (blank($title))
+                {!! $title !!}
+            @else
+                @php($titleCompo = "{$prefix}::common.card-title")
+                <x-dynamic-component :component="$titleCompo" :text="$title" />
+            @endif
+
             {!! $slot !!}
         </div>
-    </div>
+    @else
+        {!! $slot !!}
     @endif
+
+    {{-- @if ($imgSrc && $imgBottom)
+        <x-image :src="{{$imgSrc}}" />
+    @endif --}}
 
     @if (blank($footer))
         {!! $footer !!}
