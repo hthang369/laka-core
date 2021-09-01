@@ -1,4 +1,4 @@
-<div {!! $attributes->merge($attrs) !!}{!! $attrs2 !!}>
+<{{$tag}} {!! $attributes->merge($attrs) !!}>
   @if(isset($image['src']))
     <x-image {{ attributes_get($image) }}"/>
   @elseif(isset($icon))
@@ -7,12 +7,8 @@
 
   {!! $object ?? '' !!}
 
-  <div{!! $body['attrs'] !!}>
-    @if(!empty($headline))
-      <x-headline {{ attributes_get($headline) }} />
-    @endif
-
+  <div {!! $body['attrs'] !!}>
     {!! $text ?? '' !!}
     {!! $slot ?? '' !!}
   </div>
-</div>
+</{{$tag}}>

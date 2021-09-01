@@ -46,8 +46,8 @@ class Pagination extends Component
         ]);
         $this->attrs = \array_filter($this->attrs);
         $this->links = $this->getLinks();
-        data_set($this->next, 'text', '<i class="fas fa-angle-right"></i>');
-        data_set($this->prev, 'text', '<i class="fas fa-angle-left"></i>');
+        data_set($this->next, 'text', '<i class="fa fa-angle-right"></i>');
+        data_set($this->prev, 'text', '<i class="fa fa-angle-left"></i>');
     }
 
     private function getLinks()

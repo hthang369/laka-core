@@ -26,6 +26,8 @@ $items = array_merge($items, $slots)
             :src="$item['image']['src']"
             :lazyload="$item['image']['lazyload']"
             :alt="$item['image']['alt'] ?? ''"
+            :width="$item['image']['width'] ?? ''"
+            :height="$item['image']['height'] ?? ''"
           />
         @endisset
         @isset($item['content'])

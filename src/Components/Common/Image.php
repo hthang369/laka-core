@@ -43,6 +43,10 @@ class Image extends Component
             'id' => $id ?? '',
             'alt' => $alt ?? '',
         ];
+        if (!is_array($this->width))
+            $this->attrs = array_merge($this->attrs, ['width' => $this->width]);
+        if (!is_array($this->height))
+            $this->attrs = array_merge($this->attrs, ['height' => $this->height]);
         $this->attrs = \array_filter($this->attrs);
     }
 
@@ -63,11 +67,11 @@ class Image extends Component
                 $this->attrs['height'] = $sizes['height'];
             }
         } else {
-            if (!empty($this->width[0])) {
+            if (is_array($this->width) && !empty($this->width[0])) {
                 $sizes['width'] = $this->width[0];
                 $this->attrs['width'] = $sizes['width'];
             }
-            if (!empty($this->height[0])) {
+            if (is_array($this->height) && !empty($this->height[0])) {
                 $sizes['height'] = $this->height[0];
                 $this->attrs['height'] = $sizes['height'];
             }
@@ -189,16 +193,18 @@ class Image extends Component
             $this->buildResizedImage();
         }
         $this->getSizes();
-        $this->attrs['data-lazy'] = $this->lazyloadActive();
-        $this->attrs['data-srcset'] = $this->lazyloadSrc(
-            $this->getResizedImageSrc()
-        );
+        // $this->attrs['data-lazy'] = $this->lazyloadActive();
+        if ($this->lazyload)
+            $this->attrs['loading'] = 'lazy';
+        // $this->attrs['data-srcset'] = $this->lazyloadSrc(
+        //     $this->getResizedImageSrc()
+        // );
 
-        if ($this->lazyload === true) {
-            $this->attrs['src'] = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-        } else {
+        // if ($this->lazyload === true) {
+        //     $this->attrs['src'] = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+        // } else {
             $this->attrs['src'] = $this->getResizedImageSrc();
-        }
+        // }
 
         $this->attrs = \array_filter($this->attrs);
 

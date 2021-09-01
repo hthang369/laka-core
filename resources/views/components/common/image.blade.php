@@ -1,1 +1,1 @@
-<img {!! $attributes->merge($attrs) !!}{!! $attrs2 !!}>
+<img {!! $attributes->merge($attrs) !!} />
