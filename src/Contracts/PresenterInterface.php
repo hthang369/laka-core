@@ -3,7 +3,7 @@ namespace Laka\Core\Contracts;
 
 /**
  * Interface PresenterInterface
- * @package App\Core\Contracts
+ * @package Laka\Core\Contracts
  * @author Anderson Andrade <contato@andersonandra.de>
  */
 interface PresenterInterface

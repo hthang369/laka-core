@@ -9,7 +9,7 @@ class Datepicker extends Component
 {
     public $name;
     public $class;
-    public $dateFormat = 'dd/mm/yyyy';
+    public $dateFormat = 'yyyy-mm-dd';
     public $value;
 
     /**
@@ -24,7 +24,7 @@ class Datepicker extends Component
      *
      * @return void
      */
-    public function __construct($name, $dateFormat = 'dd/mm/yyyy', $size = null, $value = null)
+    public function __construct($name, $dateFormat = 'yyyy-mm-dd', $size = null, $value = null)
     {
         $this->name = $name;
         $this->class = Classes::get([
