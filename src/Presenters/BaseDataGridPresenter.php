@@ -71,7 +71,7 @@ abstract class BaseDataGridPresenter implements PresenterInterface
         return $this->getFieldButton('edit', '', [
             'class' => 'btn-primary',
             'icon' => 'far fa-edit',
-            'title' => trans('table.btn_edit'),
+            'title' => translate('table.btn_edit'),
             'visible' => $this->visibleEdit($item)
         ]);
     }
@@ -81,7 +81,7 @@ abstract class BaseDataGridPresenter implements PresenterInterface
         return $this->getFieldButton('show', '', [
             'class' => 'btn-info',
             'icon' => 'fas fa-info-circle',
-            'title' => trans('table.btn_detail'),
+            'title' => translate('table.btn_detail'),
             'visible' => $this->visibleDetail($item)
         ]);
     }
@@ -91,7 +91,7 @@ abstract class BaseDataGridPresenter implements PresenterInterface
         return $this->getFieldButton('destroy', '', [
             'class' => 'btn-danger',
             'icon' => 'far fa-trash-alt',
-            'title' => trans('table.btn_delete'),
+            'title' => translate('table.btn_delete'),
             'visible' => $this->visibleDelete($item)
         ]);
     }
