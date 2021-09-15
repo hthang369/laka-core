@@ -13,7 +13,7 @@ abstract class BaseDataGridPresenter implements PresenterInterface
 
     private $fields = [];
     private $actionName = 'action';
-
+    protected $exceptQuery = [];
     protected $actionColumnOptions = [];
     private $template = [
         'fields'        => [],
@@ -21,8 +21,7 @@ abstract class BaseDataGridPresenter implements PresenterInterface
         'total'         => 0,
         'pages'         => 0,
         'currentPage'   => 0,
-        'from'          => 0,
-        'to'            => 0
+        'except'        => []
     ];
 
     protected function setColumns()
@@ -134,8 +133,7 @@ abstract class BaseDataGridPresenter implements PresenterInterface
             'total'         => $total,
             'pages'         => method_exists($results, 'lastPage') ? $results->lastPage() : 0,
             'currentPage'   => method_exists($results, 'currentPage') ? $results->currentPage() : 0,
-            'from'          => method_exists($results, 'firstItem') ? $results->firstItem() : 0,
-            'to'            => method_exists($results, 'lastItem') ? $results->lastItem() : 0
+            'except'        => $this->exceptQuery
         ]);
     }
 }

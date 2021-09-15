@@ -2,6 +2,7 @@
 
 namespace Laka\Core\Components\Tables;
 
+use Illuminate\Support\Arr;
 use Laka\Core\Components\Component;
 use Laka\Core\Helpers\Classes;
 
@@ -18,6 +19,7 @@ class Pagination extends Component
     private $numberOfPage = 5;
     private $firstNumber = false;
     private $lastNumber = false;
+    public $except = [];
 
     /**
      * The component alias name.
@@ -32,12 +34,14 @@ class Pagination extends Component
         $next = [],
         $prev = [],
         $pages = '',
-        $class = ''
+        $class = '',
+        $except = []
     )
     {
         $this->current = $current ?: 0;
         $this->total = $total ?: 0;
         $this->pages = $pages ?: 0;
+        $this->except = $except ?: [];
         $this->next = $next ?: $this->getNextUrl($this->current);
         $this->prev = $prev ?: $this->getPrevUrl($this->current);
         $this->attrs['class'] = Classes::get([
@@ -56,7 +60,7 @@ class Pagination extends Component
         $diff = $this->pages - $endPage;
 
         $start = max($this->current - 2, $this->startPage);
-        if ($diff < 0)
+        if ($diff < 0 && $this->pages > 2)
             $start += $diff;
 
         $end = $start + min($this->numberOfPage, $this->pages) - 1;
@@ -81,7 +85,7 @@ class Pagination extends Component
     private function getUrl($page, $index)
     {
         $label = $page;
-        $url = url()->current()."?page={$page}";
+        $url = $this->getCurrentUrlWithQuery($page);
         if ($index === 0 && $page != $this->startPage) {
             $this->firstNumber = true;
             $label = '...';
@@ -103,12 +107,18 @@ class Pagination extends Component
     private function getPrevUrl($current)
     {
         $prevCurrent = $current - 1;
-        return $prevCurrent < 0 ? [] : ['href' => url()->current()."?page={$prevCurrent}"];
+        return $prevCurrent < 0 ? [] : ['href' => $this->getCurrentUrlWithQuery($prevCurrent)];
     }
 
     private function getNextUrl($current)
     {
         $nextCurrent = $current + 1;
-        return $nextCurrent > $this->pages ? [] : ['href' => url()->current()."?page={$nextCurrent}"];
+        return $nextCurrent > $this->pages ? [] : ['href' => $this->getCurrentUrlWithQuery($nextCurrent)];
+    }
+
+    private function getCurrentUrlWithQuery($pageNumber)
+    {
+        $query = array_except(request()->query(), $this->except);
+        return url()->current().'?'.Arr::query(array_merge($query, ['page' => $pageNumber]));
     }
 }
