@@ -51,6 +51,8 @@ abstract class BaseController extends Controller implements BaseControllerInterf
 
     protected $errorRouteName = [];
 
+    protected $messageResponse = [];
+
     /**
      * BaseController constructor.
      *
@@ -86,7 +88,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
     public function index() {
         $list = $this->repository->paginate();
 
-        return WebResponse::success($this->getViewName(__FUNCTION__), $list);
+        return WebResponse::success($this->getViewName(__FUNCTION__), $list, $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -98,7 +100,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      */
     public function create() {
         $data = null;
-        return WebResponse::success($this->getViewName(__FUNCTION__), $data);
+        return WebResponse::success($this->getViewName(__FUNCTION__), $data, $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -110,7 +112,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      */
     public function edit($id) {
         $data = $this->repository->show($id);
-        return WebResponse::success($this->getViewName(__FUNCTION__), $data);
+        return WebResponse::success($this->getViewName(__FUNCTION__), $data, $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -130,11 +132,11 @@ abstract class BaseController extends Controller implements BaseControllerInterf
                 $data = $data->toArray();
             }
 
-            return WebResponse::created(route($this->getViewName(__FUNCTION__)), $data);
+            return WebResponse::created(route($this->getViewName(__FUNCTION__)), $data, $this->getMessageResponse(__FUNCTION__));
         } catch (ValidatorException $e) {
-            return WebResponse::validateFail(route($this->getErrorRouteName(__FUNCTION__)), $e->getMessageBag());
+            return WebResponse::validateFail(route($this->getErrorRouteName(__FUNCTION__)), $e->getMessageBag(), $this->getMessageResponse(__FUNCTION__));
         } catch (\Exception $e) {
-            return WebResponse::exception(route($this->getErrorRouteName(__FUNCTION__)), null, $e->getMessage());
+            return WebResponse::exception(route($this->getErrorRouteName(__FUNCTION__)), $this->getMessageResponse(__FUNCTION__), $e->getMessage());
         }
     }
 
@@ -147,7 +149,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      */
     public function show($id) {
         $data = $this->repository->show($id);
-        return WebResponse::success($this->getViewName(__FUNCTION__), $data);
+        return WebResponse::success($this->getViewName(__FUNCTION__), $data, $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -169,11 +171,11 @@ abstract class BaseController extends Controller implements BaseControllerInterf
                 $data = $data->toArray();
             }
 
-            return WebResponse::updated(route($this->getViewName(__FUNCTION__), $id), $data);
+            return WebResponse::updated(route($this->getViewName(__FUNCTION__), $id), $data, $this->getMessageResponse(__FUNCTION__));
         } catch (ValidatorException $e) {
-            return WebResponse::validateFail(route($this->getErrorRouteName(__FUNCTION__), $id), $e->getMessageBag());
+            return WebResponse::validateFail(route($this->getErrorRouteName(__FUNCTION__), $id), $e->getMessageBag(), $this->getMessageResponse(__FUNCTION__));
         } catch (\Exception $e) {
-            return WebResponse::exception(route($this->getErrorRouteName(__FUNCTION__), $id), null, $e->getMessage());
+            return WebResponse::exception(route($this->getErrorRouteName(__FUNCTION__), $id), $this->getMessageResponse(__FUNCTION__), $e->getMessage());
         }
     }
 
@@ -186,7 +188,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
     public function destroy($id) {
         $this->repository->delete($id);
 
-        return WebResponse::deleted(route($this->getViewName(__FUNCTION__), $id));
+        return WebResponse::deleted(route($this->getViewName(__FUNCTION__), $id), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -207,6 +209,11 @@ abstract class BaseController extends Controller implements BaseControllerInterf
     protected function getErrorRouteName($key)
     {
         return data_get($this->errorRouteName, $key, '');
+    }
+
+    private function getMessageResponse($key)
+    {
+        return data_get($this->messageResponse, $key, null);
     }
 
     /**
