@@ -50,4 +50,19 @@ class BaseValidator extends LaravelValidator
             }
         });
     }
+
+    /**
+     * Pass the data and the rules to the validator
+     *
+     * @param string $action
+     * @return bool
+     */
+    public function passes($action = null)
+    {
+        $passes = parent::passes($action);
+        if (!$passes) {
+            request()->flash();
+        }
+        return $passes;
+    }
 }
