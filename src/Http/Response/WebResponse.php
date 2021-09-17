@@ -63,12 +63,13 @@ class WebResponse
         return static::makeRedirect($viewName, true, Response::HTTP_FOUND, $message);
     }
 
-    public static function validateFail($routeName, array $errors, $message = null)
+    public static function validateFail($routeName, $errors, $message = null)
     {
         if ($message === null) {
             $message = trans('response.validation_fail');
         }
-        return static::makeResponseError($routeName, Response::HTTP_UNPROCESSABLE_ENTITY, $message, $errors);
+        $errors = $errors instanceof Arrayable ? $errors->toArray() : $errors;
+        return static::makeResponseError($routeName, Response::HTTP_FOUND, $errors, $message);
     }
 
     protected static function makeResponse(string $viewName, bool $success, int $code, string $message, $data = null, array $errors = [], array $headers = [])
@@ -92,11 +93,15 @@ class WebResponse
             'errors'  => $errors
         ];
 
-        return redirect()->intended($routeName, $code, $headers)->with($content);
+        return redirect()->intended($routeName, $code, $headers)->with($content)->withInput();
     }
 
-    protected static function makeResponseError(string $routeName, int $code, array $errors = [], array $headers = [])
+    protected static function makeResponseError(string $routeName, int $code, array $errors = [], string $message = '', array $headers = [])
     {
-        return redirect()->intended($routeName, $code, $headers)->withInput()->withErrors($errors);
+        $content = [
+            'success' => false,
+            'message' => $message
+        ];
+        return redirect()->intended($routeName, $code, $headers)->with($content)->withInput()->withErrors($errors);
     }
 }

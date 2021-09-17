@@ -130,7 +130,9 @@ abstract class BaseController extends Controller implements BaseControllerInterf
 
             return WebResponse::created(route($this->getViewName(__FUNCTION__)), $data);
         } catch (ValidatorException $e) {
-            return WebResponse::exception(route($this->getViewName('create')), null, $e->getMessageBag());
+            return WebResponse::validateFail(route($this->getViewName('create')), $e->getMessageBag());
+        } catch (\Exception $e) {
+            return WebResponse::exception(route($this->getViewName('create')), null, $e->getMessage());
         }
     }
 
@@ -167,7 +169,9 @@ abstract class BaseController extends Controller implements BaseControllerInterf
 
             return WebResponse::updated(route($this->getViewName(__FUNCTION__), $id), $data);
         } catch (ValidatorException $e) {
-            return WebResponse::exception(route($this->getViewName('edit'), $id), null, $e->getMessageBag());
+            return WebResponse::validateFail(route($this->getViewName('edit'), $id), $e->getMessageBag());
+        } catch (\Exception $e) {
+            return WebResponse::exception(route($this->getViewName('edit'), $id), null, $e->getMessage());
         }
     }
 
