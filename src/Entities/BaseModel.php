@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Laka\Core\Traits\FullTextSearch;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
+use Laka\Core\Traits\BuildPaginator;
 
 class BaseModel extends Model
 {
-    use FullTextSearch;
+    use FullTextSearch, BuildPaginator;
 
     const CREATED_USER = 'created_user_id';
     const UPDATED_USER = 'updated_user_id';
@@ -27,7 +28,7 @@ class BaseModel extends Model
     public function __construct(array $attributes = []) {
         parent::__construct($attributes);
         $this->registerObserver(BaseModelObserver::class);
-        $this->auth_user = 0;
+        $this->auth_user = Auth::check() ? Auth::user()->id : 0;
     }
 
     public function setCreatedUpdatedUsers()

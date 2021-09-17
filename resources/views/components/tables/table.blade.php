@@ -53,15 +53,10 @@
         </tbody>
     </table>
 
-    @if ($pagination['pages'] > 0)
-    <div class="d-flex justify-content-between">
-        <x-pagination
-            :total="$pagination['total']"
-            :current="$pagination['currentPage']"
-            :pages="$pagination['pages']"
-            :except="$pagination['except']" />
-
-        <span>{{$showingResult}}</span>
-    </div>
-    @endif
+    <x-pagination
+        :items="$items"
+        :total="$pagination['total']"
+        :current="$pagination['currentPage']"
+        :pages="$pagination['pages']"
+        :except="$pagination['except']" />
 </div>

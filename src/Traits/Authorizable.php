@@ -3,6 +3,7 @@
 namespace Laka\Core\Traits;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use \Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 /*
@@ -11,6 +12,8 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
 
 trait Authorizable
 {
+    use CommonFunction;
+
     protected $permissionActions = [];
     /**
      * Abilities: maps action controller with permission actions
@@ -53,10 +56,10 @@ trait Authorizable
         }
 
         $auth = ['auth:api', 'web:api', 'auth:web'];
-        $middleware = \Request::route()->middleware();
+        $middleware = Request::route()->middleware();
 
         if (count(array_diff($auth, $middleware)) == 1) {
-            throw UnauthorizedException::forPermissions([\Request::route()->getName()]);
+            throw UnauthorizedException::forPermissions([Request::route()->getName()]);
         } else {
             return $this->callPermissionAction($method, $parameters);
         }
@@ -89,7 +92,7 @@ trait Authorizable
      */
     public function isMiddleWareRolesPermission()
     {
-        $middleware = \Request::route()->middleware();
+        $middleware = Request::route()->middleware();
         $guard = ['role', 'role_or_permission'];
         foreach ($middleware as $m) {
             $t  = explode(':', $m);
@@ -108,16 +111,9 @@ trait Authorizable
      */
     public function getAbility($method)
     {
-        $routeName = explode('.', \Request::route()->getName());
+        $routeName = explode('.', Request::route()->getName());
         $action = array_get($this->getAbilities(), $method);
         return $action ? $action . '_' . $routeName[0] : null;
-    }
-
-    public function getSectionCode()
-    {
-        if (is_null(\Request::route())) return '';
-        $routeName = explode('.', \Request::route()->getName());
-        return trim(head($routeName));
     }
 
     /**

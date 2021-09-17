@@ -5,11 +5,12 @@ namespace Laka\Core\Presenters;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Laka\Core\Contracts\PresenterInterface;
 use Laka\Core\Helpers\Classes;
+use Laka\Core\Traits\CommonFunction;
 use Laka\Core\Traits\HasDataColumn;
 
 abstract class BaseDataGridPresenter implements PresenterInterface
 {
-    use HasDataColumn;
+    use HasDataColumn, CommonFunction;
 
     private $fields = [];
     private $actionName = 'action';
@@ -23,6 +24,8 @@ abstract class BaseDataGridPresenter implements PresenterInterface
         'currentPage'   => 0,
         'except'        => []
     ];
+    protected $resultData = [];
+    protected $paginator = null;
 
     protected function setColumns()
     {
@@ -120,7 +123,8 @@ abstract class BaseDataGridPresenter implements PresenterInterface
     public function present($results)
     {
         if ($results instanceof LengthAwarePaginator) {
-            return $this->parsePresent($results, $results->total());
+            $this->paginator = $results;
+            return $this->resultData = $this->parsePresent($results, $results->total());
         }
         return $results;
     }
@@ -135,5 +139,15 @@ abstract class BaseDataGridPresenter implements PresenterInterface
             'currentPage'   => method_exists($results, 'currentPage') ? $results->currentPage() : 0,
             'except'        => $this->exceptQuery
         ]);
+    }
+
+    public function render()
+    {
+        $prefix = config('laka-core.prefix');
+        return view("{$prefix}::data-grid", [
+            'sectionCode' => $this->getSectionCode(),
+            'data' => $this->resultData,
+            'paginator' => $this->paginator
+        ])->render();
     }
 }

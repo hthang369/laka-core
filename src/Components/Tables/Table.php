@@ -17,7 +17,6 @@ class Table extends Component
     public $hover;
     public $stickyHeader;
     public $tableClass;
-    public $showingResult;
     public $isFilters;
     /**
      * The component alias name.
@@ -67,6 +66,5 @@ class Table extends Component
         if (!empty($size)) {
             array_push($this->tableClass, sprintf('table-%s', $size));
         }
-        $this->showingResult = sprintf(translate('table.show_result'), $this->pagination['from'], $this->pagination['to'], $this->pagination['total']);
     }
 }

@@ -56,6 +56,13 @@ abstract class BaseRepository implements RepositoryInterface
      */
     protected $traitBoots = [];
 
+    /**
+     * The array of except query.
+     *
+     * @var array
+     */
+    protected $except = [];
+
     public function __construct()
     {
         $this->makeModel();
