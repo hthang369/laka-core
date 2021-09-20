@@ -123,21 +123,15 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @throws ValidatorException
      */
     public function store(Request $request) {
-        try {
-            $this->validator($request->all(), ValidatorInterface::RULE_CREATE);
+        $this->validator($request->all(), ValidatorInterface::RULE_CREATE);
 
-            $data = $this->repository->create($request->all());
+        $data = $this->repository->create($request->all());
 
-            if (method_exists($data, 'toArray')) {
-                $data = $data->toArray();
-            }
-
-            return WebResponse::created(route($this->getViewName(__FUNCTION__)), $data, $this->getMessageResponse(__FUNCTION__));
-        } catch (ValidatorException $e) {
-            return WebResponse::validateFail(route($this->getErrorRouteName(__FUNCTION__)), $e->getMessageBag(), $this->getMessageResponse(__FUNCTION__));
-        } catch (\Exception $e) {
-            return WebResponse::exception(route($this->getErrorRouteName(__FUNCTION__)), $this->getMessageResponse(__FUNCTION__), $e->getMessage());
+        if (method_exists($data, 'toArray')) {
+            $data = $data->toArray();
         }
+
+        return WebResponse::created(route($this->getViewName(__FUNCTION__)), $data, $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -161,22 +155,16 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @throws ValidatorException
      */
     public function update(Request $request, $id) {
-        try {
-            $this->validator->setId($id);
-            $this->validator($request->all(), ValidatorInterface::RULE_UPDATE);
+        $this->validator->setId($id);
+        $this->validator($request->all(), ValidatorInterface::RULE_UPDATE);
 
-            $data = $this->repository->update($request->all(), $id);
+        $data = $this->repository->update($request->all(), $id);
 
-            if (method_exists($data, 'toArray')) {
-                $data = $data->toArray();
-            }
-
-            return WebResponse::updated(route($this->getViewName(__FUNCTION__), $id), $data, $this->getMessageResponse(__FUNCTION__));
-        } catch (ValidatorException $e) {
-            return WebResponse::validateFail(route($this->getErrorRouteName(__FUNCTION__), $id), $e->getMessageBag(), $this->getMessageResponse(__FUNCTION__));
-        } catch (\Exception $e) {
-            return WebResponse::exception(route($this->getErrorRouteName(__FUNCTION__), $id), $this->getMessageResponse(__FUNCTION__), $e->getMessage());
+        if (method_exists($data, 'toArray')) {
+            $data = $data->toArray();
         }
+
+        return WebResponse::updated(route($this->getViewName(__FUNCTION__), $id), $data, $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -204,11 +192,6 @@ abstract class BaseController extends Controller implements BaseControllerInterf
     protected function getViewName($key)
     {
         return data_get($this->listDefaultViewName, $key, $this->defaultName.'.'.$key);
-    }
-
-    protected function getErrorRouteName($key)
-    {
-        return data_get($this->errorRouteName, $key, '');
     }
 
     private function getMessageResponse($key)

@@ -2,8 +2,11 @@
 
 namespace Laka\Core\Traits;
 
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Laka\Core\Http\Response\WebResponse;
+use Prettus\Validator\Exceptions\ValidatorException;
 use \Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 /*
@@ -39,12 +42,12 @@ trait Authorizable
     {
         // Skip permission check when run unit test
         if (app()->environment() === 'testing') {
-            return $this->callPermissionAction($method, $parameters);
+            return $this->callDoAction($method, $parameters);
         }
 
         //check middleware multiple roles or permission
         if ($this->isMiddleWareRolesPermission()) {
-            return $this->callPermissionAction($method, $parameters);
+            return $this->callDoAction($method, $parameters);
         }
 
         //check permission action
@@ -52,7 +55,7 @@ trait Authorizable
             if (!preg_match('/^public_/', $ability)) {
                 $this->authorize($ability);
             }
-            return $this->callPermissionAction($method, $parameters);
+            return $this->callDoAction($method, $parameters);
         }
 
         $auth = ['auth:api', 'web:api', 'auth:web'];
@@ -61,11 +64,22 @@ trait Authorizable
         if (count(array_diff($auth, $middleware)) == 1) {
             throw UnauthorizedException::forPermissions([Request::route()->getName()]);
         } else {
-            return $this->callPermissionAction($method, $parameters);
+            return $this->callDoAction($method, $parameters);
         }
     }
 
-    final public function callPermissionAction($method, ...$params)
+    protected function callDoAction($method, $params)
+    {
+        try {
+            return $this->callPermissionAction($method, $params);
+        } catch (ValidatorException $e) {
+            return WebResponse::validateFail($this->getErrorRouteName($method, head($params)), $e->getMessageBag(), $this->getMessageResponse($method));
+        } catch (\Exception $e) {
+            return WebResponse::exception($this->getErrorRouteName($method, head($params)), $this->getMessageResponse($method), $e->getMessage());
+        }
+    }
+
+    protected function callPermissionAction($method, ...$params)
     {
         if (in_array($method, $this->tranActions)) {
             try {
@@ -84,6 +98,20 @@ trait Authorizable
         } else {
             return parent::callAction($method, head($params));
         }
+    }
+
+    private function getParamID($params)
+    {
+        return head(array_filter($params, function($item) {
+            return !($item instanceof HttpRequest);
+        }));
+    }
+
+    protected function getErrorRouteName($method, $params)
+    {
+        $paramId = $this->getParamID($params);
+        $routeName = data_get($this->errorRouteName, $method, '');
+        return route($routeName, [$paramId]);
     }
 
     /*
