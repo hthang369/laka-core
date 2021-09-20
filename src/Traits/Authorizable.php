@@ -73,9 +73,17 @@ trait Authorizable
         try {
             return $this->callPermissionAction($method, $params);
         } catch (ValidatorException $e) {
-            return WebResponse::validateFail($this->getErrorRouteName($method, head($params)), $e->getMessageBag(), $this->getMessageResponse($method));
+            $errorRoute = $this->getErrorRouteName($method, $params);
+            if (empty($errorRoute))
+                throw $e;
+            else
+                return WebResponse::validateFail($errorRoute, $e->getMessageBag(), $this->getMessageResponse($method));
         } catch (\Exception $e) {
-            return WebResponse::exception($this->getErrorRouteName($method, head($params)), $this->getMessageResponse($method), $e->getMessage());
+            $errorRoute = $this->getErrorRouteName($method, $params);
+            if (empty($errorRoute))
+                throw $e;
+            else
+                return WebResponse::exception($errorRoute, $this->getMessageResponse($method), $e->getMessage());
         }
     }
 
@@ -111,6 +119,7 @@ trait Authorizable
     {
         $paramId = $this->getParamID($params);
         $routeName = data_get($this->errorRouteName, $method, '');
+        if (blank($routeName)) return '';
         return route($routeName, [$paramId]);
     }
 
