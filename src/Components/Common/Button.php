@@ -9,6 +9,7 @@ class Button extends Component
     public $text;
     public $variant;
     public $type;
+    public $btnType;
     public $btnSize;
 
     /**
@@ -22,12 +23,17 @@ class Button extends Component
         $variant = 'secondary',
         $type = 'button',
         $text = '',
-        $size = ''
+        $size = '',
+        $icon = ''
     )
     {
         $this->text = $text ?? '';
-        $this->type = $type ?? '';
+        $this->btnType = $this->type = $type ?? '';
         $this->variant = $variant ?? '';
+        if (!blank($icon)) {
+            $this->text = '<i class="'.$icon.'"></i>';
+            $this->btnType = 'button';
+        }
         $this->btnSize = !empty($size) ? "btn-$size" : '';
     }
 }

@@ -18,7 +18,7 @@ class WebResponse
     public static function success($viewName, $data, $message = null)
     {
         if ($message === null) {
-            $message = trans('response.success');
+            $message = translate('response.success');
         }
         return static::makeResponse($viewName, true, Response::HTTP_OK, $message, $data);
     }
@@ -26,7 +26,7 @@ class WebResponse
     public static function error($routeName, $message, int $code = Response::HTTP_FOUND)
     {
         if ($message === null) {
-            $message = trans('response.error');
+            $message = translate('response.error');
         }
         return static::makeRedirect($routeName, false, $code, $message);
     }
@@ -34,7 +34,7 @@ class WebResponse
     public static function exception($routeName, $message, $errors = [], int $code = Response::HTTP_FOUND, array $headers = [])
     {
         if ($message === null) {
-            $message = trans('response.exception');
+            $message = translate('response.exception');
         }
         return static::makeRedirect($routeName, false, $code, $message, null, $errors, $headers);
     }
@@ -42,7 +42,7 @@ class WebResponse
     public static function created($viewName, $data, $message = null)
     {
         if ($message === null) {
-            $message = trans('response.created');
+            $message = translate('response.created');
         }
         return static::makeRedirect($viewName, true, Response::HTTP_FOUND, $message, $data);
     }
@@ -50,7 +50,7 @@ class WebResponse
     public static function updated($viewName, $data, $message = null)
     {
         if ($message === null) {
-            $message = trans('response.updated');
+            $message = translate('response.updated');
         }
         return static::makeRedirect($viewName, true, Response::HTTP_FOUND, $message, $data);
     }
@@ -58,7 +58,23 @@ class WebResponse
     public static function deleted($viewName, $message = null)
     {
         if ($message === null) {
-            $message = trans('response.deleted');
+            $message = translate('response.deleted');
+        }
+        return static::makeRedirect($viewName, true, Response::HTTP_FOUND, $message);
+    }
+
+    public static function downloaded($viewName, $message = null)
+    {
+        if ($message === null) {
+            $message = translate('response.downloaded');
+        }
+        return static::makeRedirect($viewName, true, Response::HTTP_FOUND, $message);
+    }
+
+    public static function uploaded($viewName, $message = null)
+    {
+        if ($message === null) {
+            $message = translate('response.uploaded');
         }
         return static::makeRedirect($viewName, true, Response::HTTP_FOUND, $message);
     }
@@ -66,7 +82,7 @@ class WebResponse
     public static function validateFail($routeName, $errors, $message = null)
     {
         if ($message === null) {
-            $message = trans('response.validation_fail');
+            $message = translate('response.validation_fail');
         }
         $errors = $errors instanceof Arrayable ? $errors->toArray() : $errors;
         return static::makeResponseError($routeName, Response::HTTP_FOUND, $errors, $message);
