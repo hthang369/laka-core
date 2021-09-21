@@ -2,6 +2,7 @@
 
 namespace Laka\Core\Components\Common;
 
+use Illuminate\Support\Arr;
 use Laka\Core\Components\Component;
 
 class Button extends Component
@@ -31,7 +32,8 @@ class Button extends Component
         $this->btnType = $this->type = $type ?? '';
         $this->variant = $variant ?? '';
         if (!blank($icon)) {
-            $this->text = '<i class="'.$icon.'"></i>';
+            $iconClass = !empty($text) ? 'mr-2' : '';
+            $this->text = '<i class="'.Arr::toCssClasses([$icon, $iconClass]).'"></i>'.$this->text;
             $this->btnType = 'button';
         }
         $this->btnSize = !empty($size) ? "btn-$size" : '';
