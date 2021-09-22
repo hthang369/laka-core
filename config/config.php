@@ -21,6 +21,7 @@ use Laka\Core\Components\Common\Link;
 use Laka\Core\Components\Common\Media;
 use Laka\Core\Components\Common\Image;
 use Laka\Core\Components\Common\Svg;
+use Laka\Core\Components\Common\Toasts;
 use Laka\Core\Components\Forms\Checkbox;
 use Laka\Core\Components\Forms\Datepicker;
 use Laka\Core\Components\Forms\Form;
@@ -174,7 +175,10 @@ return [
             'view'  => 'components.common.button',
             'class' => Button::class
         ],
-
+        'toasts' => [
+            'view'  => 'components.common.toasts',
+            'class' => Toasts::class
+        ],
     ],
     'form-components' => [
         'bsInput' => [

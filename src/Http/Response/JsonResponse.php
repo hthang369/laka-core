@@ -10,7 +10,7 @@ class JsonResponse
     public static function success($data, $message = null)
     {
         if ($message === null) {
-            $message = trans('response.success');
+            $message = translate('response.success');
         }
         return static::makeResponse(true, Response::HTTP_OK, $message, $data);
     }
@@ -33,7 +33,7 @@ class JsonResponse
     public static function created($data, $message = null)
     {
         if ($message === null) {
-            $message = trans('response.created');
+            $message = translate('response.created');
         }
         return static::makeResponse(true, Response::HTTP_CREATED, $message, $data);
     }
@@ -41,7 +41,7 @@ class JsonResponse
     public static function updated($data, $message = null)
     {
         if ($message === null) {
-            $message = trans('response.updated');
+            $message = translate('response.updated');
         }
         return static::makeResponse(true, Response::HTTP_OK, $message, $data);
     }
@@ -49,7 +49,7 @@ class JsonResponse
     public static function deleted($message = null)
     {
         if ($message === null) {
-            $message = trans('response.deleted');
+            $message = translate('response.deleted');
         }
         return static::makeResponse(true, Response::HTTP_OK, $message);
     }
@@ -57,7 +57,7 @@ class JsonResponse
     public static function validateFail(array $errors, $message = null)
     {
         if ($message === null) {
-            $message = trans('response.validation_fail');
+            $message = translate('response.validation_fail');
         }
         return static::makeResponse(false, Response::HTTP_UNPROCESSABLE_ENTITY, $message, null, $errors);
     }

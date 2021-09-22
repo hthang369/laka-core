@@ -44,6 +44,10 @@ class LakaCoreServiceProvider extends ServiceProvider
         collect(config('laka-core.components'))->each(function($item, $alias) {
             Blade::component($alias, $item['class']);
         });
+
+        Blade::directive('icon', function ($expression) {
+            return '<i class="'."<?php echo e($expression); ?>".'"></i>';
+        });
     }
 
     protected function registerFormComponents()

@@ -11,26 +11,26 @@ trait HasDataColumn
     private function getTemplateFields()
     {
         return [
-            'key' => '',
-            'label' => '',
-            'headerTitle' => '',
-            'class' => '',
-            'dataType' => 'string',
-            'sortable' => true,
-            'filtering' => false,
-            'tdClass' => '',
-            'thClass' => '',
-            'thStyle' => '',
-            'variant' => '',
-            'tdAttr' => [],
-            'isRowHeader' => false,
-            'cell'  => '',
-            'visible' => true,
-            'stickyColumn' => false,
-            'lookup' => [
-                'dataSource' => null,
-                'displayExpr' => '',
-                'valueExpr' => ''
+            'key' => '', // tên column (tên cột chứa giá trị trong mảng data)
+            'label' => '', // caption của column
+            'headerTitle' => '', // Chưa sử dụng
+            'class' => '', // khai báo class name cho column
+            'dataType' => 'string', // kiểu dữ liệu của column
+            'sortable' => true, // cho phép column được phép sắp xếp hay ko?
+            'filtering' => false, // column được phép filter hay ko>
+            'tdClass' => '', // Chưa sử dụng
+            'thClass' => '', // Chưa sử dụng
+            'thStyle' => '', // Chưa sử dụng
+            'variant' => '', // Chưa sử dụng
+            'tdAttr' => [], // Chưa sử dụng
+            'isRowHeader' => false, // Chưa sử dụng
+            'cell'  => '', // Định dạng lại nội dung hiển thị cho 1 column
+            'visible' => true, // Ản hiện column
+            'stickyColumn' => false, // Chưa sử dụng
+            'lookup' => [ // Loại của column là dạng 1 khóa ngoại liên kết đến 1 table trong db khác để hiển thị dữ liệu
+                'dataSource' => null, // dữ liệu từ table liên kết
+                'displayExpr' => '', // cột hiển thị giá trị lên select
+                'valueExpr' => '' // Giá trị của từng option select
             ]
         ];
     }
