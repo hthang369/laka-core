@@ -9,4 +9,5 @@ return [
     'deleted'       => 'Xóa thành công!',
     'downloaded'    => 'Tải xuống thành công!',
     'uploaded'      => 'Tải lên thành công!',
+    'validation_fail' => 'Kiểm tra dữ liệu sai!'
 ];

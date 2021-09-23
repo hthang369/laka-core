@@ -10,7 +10,7 @@ use Prettus\Validator\LaravelValidator;
  * Class BaseValidator
  * @package Laka\Core\Validators
  */
-class BaseValidator extends LaravelValidator
+abstract class BaseValidator extends LaravelValidator
 {
     protected $tableName;
     /**
@@ -28,6 +28,8 @@ class BaseValidator extends LaravelValidator
         $rule = parent::getRules($action);
 
         $this->addMaxLengthRule($rule);
+
+        $this->configRule($rule);
 
         return $rule;
     }
@@ -49,5 +51,9 @@ class BaseValidator extends LaravelValidator
                 }
             }
         });
+    }
+
+    protected function configRule(&$rules)
+    {
     }
 }

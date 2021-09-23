@@ -9,4 +9,5 @@ return [
     'deleted'       => 'Deleted!',
     'downloaded'    => 'Downloaded!',
     'uploaded'      => 'Uploaded!',
+    'validation_fail' => 'Validateed Fail!'
 ];
