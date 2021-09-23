@@ -20,13 +20,19 @@ class JsonResponse
         return response(null, Response::HTTP_NOT_MODIFIED);
     }
 
-    public static function error($message, int $code = Response::HTTP_INTERNAL_SERVER_ERROR)
+    public static function error($errors, $message = null, int $code = Response::HTTP_INTERNAL_SERVER_ERROR)
     {
-        return static::makeResponse(false, $code, $message);
+        if ($message === null) {
+            $message = translate('response.error');
+        }
+        return static::makeResponse(false, $code, $message, null, $errors);
     }
 
-    public static function exception(int $code, string $message, array $errors = [], array $headers = [])
+    public static function exception(int $code, string $message = null, array $errors = [], array $headers = [])
     {
+        if ($message === null) {
+            $message = translate('response.exception');
+        }
         return static::makeResponse(false, $code, $message, null, $errors, $headers);
     }
 

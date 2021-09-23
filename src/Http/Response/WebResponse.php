@@ -23,12 +23,12 @@ class WebResponse
         return static::makeResponse($viewName, true, Response::HTTP_OK, $message, $data);
     }
 
-    public static function error($routeName, $message, int $code = Response::HTTP_FOUND)
+    public static function error($routeName, $errors, $message = null, int $code = Response::HTTP_FOUND)
     {
         if ($message === null) {
             $message = translate('response.error');
         }
-        return static::makeRedirect($routeName, false, $code, $message);
+        return static::makeRedirect($routeName, false, $code, $message, null, $errors);
     }
 
     public static function exception($routeName, $message, $errors = [], int $code = Response::HTTP_FOUND, array $headers = [])
