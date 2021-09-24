@@ -28,7 +28,7 @@ class JsonResponse
         return static::makeResponse(false, $code, $message, null, $errors);
     }
 
-    public static function exception(int $code, string $message = null, array $errors = [], array $headers = [])
+    public static function exception(array $errors = [], string $message = null, int $code = Response::HTTP_CONFLICT, array $headers = [])
     {
         if ($message === null) {
             $message = translate('response.exception');

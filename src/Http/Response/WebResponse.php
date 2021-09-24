@@ -31,7 +31,7 @@ class WebResponse
         return static::makeRedirect($routeName, false, $code, $message, null, $errors);
     }
 
-    public static function exception($routeName, $message, $errors = [], int $code = Response::HTTP_FOUND, array $headers = [])
+    public static function exception($routeName, $errors = [], $message = null, int $code = Response::HTTP_FOUND, array $headers = [])
     {
         if ($message === null) {
             $message = translate('response.exception');

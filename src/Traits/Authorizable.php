@@ -83,7 +83,7 @@ trait Authorizable
             if (empty($errorRoute))
                 throw $e;
             else
-                return WebResponse::exception($errorRoute, $this->getMessageResponse($method), $e->getMessage());
+                return WebResponse::exception($errorRoute, $e->getMessage(), $this->getMessageResponse($method));
         }
     }
 
