@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Laka\Core\Traits\FullTextSearch;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
-use Laka\Core\Traits\BuildPaginator;
 
 class BaseModel extends Model
 {
-    use FullTextSearch, BuildPaginator;
+    use FullTextSearch;
 
     const CREATED_USER = 'created_user_id';
     const UPDATED_USER = 'updated_user_id';
@@ -61,5 +60,16 @@ class BaseModel extends Model
         if (Schema::hasColumn($this->getTable(), $key)) {
             return parent::setAttribute($key, $value);
         }
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function newEloquentBuilder($query)
+    {
+        return new BaseBuilder($query);
     }
 }

@@ -22,7 +22,8 @@ abstract class BaseDataGridPresenter implements PresenterInterface
         'total'         => 0,
         'pages'         => 0,
         'currentPage'   => 0,
-        'except'        => []
+        'except'        => [],
+        'paginator'     => null
     ];
     protected $resultData = [];
     protected $paginator = null;
@@ -137,7 +138,8 @@ abstract class BaseDataGridPresenter implements PresenterInterface
             'total'         => $total,
             'pages'         => method_exists($results, 'lastPage') ? $results->lastPage() : 0,
             'currentPage'   => method_exists($results, 'currentPage') ? $results->currentPage() : 0,
-            'except'        => $this->exceptQuery
+            'except'        => $this->exceptQuery,
+            'paginator'     => $results
         ]);
     }
 

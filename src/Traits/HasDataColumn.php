@@ -93,7 +93,9 @@ trait HasDataColumn
 
     public function getPagination($pagination)
     {
-        return array_merge($this->getTemplatePagination(), $pagination);
+        if (is_array($pagination))
+            return array_merge($this->getTemplatePagination(), $pagination);
+        return $pagination;
     }
 
     public function getField($fieldName, $caption, $options = [])

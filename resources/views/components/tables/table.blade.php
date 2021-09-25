@@ -53,10 +53,17 @@
         </tbody>
     </table>
 
-    <x-pagination
-        :items="$items"
-        :total="$pagination['total']"
-        :current="$pagination['currentPage']"
-        :pages="$pagination['pages']"
-        :except="$pagination['except']" />
+    @section('paginator-info')
+        @if (is_array($pagination))
+            <x-pagination
+                :items="$items"
+                :total="$pagination['total']"
+                :current="$pagination['currentPage']"
+                :pages="$pagination['pages']"
+                :except="$pagination['except']" />
+        @else
+            {!! $pagination->links() !!}
+        @endif
+    @show
+
 </div>

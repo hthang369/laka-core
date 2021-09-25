@@ -202,7 +202,7 @@ abstract class BaseRepository implements RepositoryInterface
 
         $limit = is_null($limit) ? $this->getLimitForPagination() : $limit;
         $results = $this->model->{$method}($limit, $columns);
-        $results->appends(app('request')->query());
+        $results->appends(request()->except($this->except));
         $this->resetQuery();
 
         return $this->parserResult($results);
