@@ -23,12 +23,14 @@ use Laka\Core\Components\Common\Image;
 use Laka\Core\Components\Common\Svg;
 use Laka\Core\Components\Common\Toasts;
 use Laka\Core\Components\Forms\Checkbox;
+use Laka\Core\Components\Forms\CheckboxGroup;
 use Laka\Core\Components\Forms\Datepicker;
 use Laka\Core\Components\Forms\Form;
 use Laka\Core\Components\Forms\Group;
 use Laka\Core\Components\Forms\Input;
 use Laka\Core\Components\Forms\Label;
 use Laka\Core\Components\Forms\Radio;
+use Laka\Core\Components\Forms\RadioGroup;
 use Laka\Core\Components\Forms\Select;
 use Laka\Core\Components\Forms\Textarea;
 use Laka\Core\Components\Tables\Pagination;
@@ -75,9 +77,17 @@ return [
             'view'  => 'components.forms.checkbox',
             'class' => Checkbox::class
         ],
+        'form-checkbox-group' => [
+            'view'  => 'components.forms.checkbox-group',
+            'class' => CheckboxGroup::class
+        ],
         'form-radio' => [
             'view'  => 'components.forms.radio',
             'class' => Radio::class
+        ],
+        'form-radio-group' => [
+            'view'  => 'components.forms.radio-group',
+            'class' => RadioGroup::class
         ],
         'form-textarea' => [
             'view'  => 'components.forms.textarea',

@@ -20,20 +20,24 @@ class Radio extends Component
     public $labelAttr;
     public $value;
     public $checked;
+    public $showError;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $label, $custom = false, $value = 1, $checked = false)
+    public function __construct($name, $label, $custom = false, $value = 1, $checked = false, $groupClass = null, $showError = true)
     {
         $this->name = $name;
         $this->label = $label;
-        $this->chkGroupCLass = $custom ? join(' ', ['custom-control', 'custom-radio']) : 'form-check';
+        $chkGroupClass = $custom ? ['custom-control', 'custom-radio'] : ['form-check'];
+        array_push($chkGroupClass, $groupClass);
+        $this->chkGroupCLass = join(' ', $chkGroupClass);
         $this->class = $custom ? ['custom-control-input'] : ['form-check-input'];
         $this->labelAttr = ['class' => $custom ? 'custom-control-label' : 'form-check-label'];
         $this->value = $value;
         $this->checked = $checked;
+        $this->showError = $showError;
     }
 }

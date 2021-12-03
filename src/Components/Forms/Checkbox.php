@@ -20,20 +20,25 @@ class Checkbox extends Component
     public $labelAttr;
     public $value;
     public $checked;
+    public $showError;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $label, $custom = false, $checked = false)
+    public function __construct($name, $label, $custom = false, $checked = false, $value = 1, $groupClass = null, $showError = true)
     {
         $this->name = $name;
         $this->label = $label;
-        $this->chkGroupCLass = $custom ? join(' ', ['custom-control', 'custom-checkbox']) : 'form-check';
-        $this->class = $custom ? ['custom-control-input'] : ['form-check-input'];
+        $chkGroupClass = $custom ? ['custom-control', 'custom-checkbox'] : ['form-check'];
+        array_push($chkGroupClass, $groupClass);
+        $this->chkGroupCLass = join(' ', $chkGroupClass);
+        $chkClass = $custom ? ['custom-control-input'] : ['form-check-input'];
+        $this->class = $chkClass;
         $this->labelAttr = ['class' => $custom ? 'custom-control-label' : 'form-check-label'];
-        $this->value = 1;
+        $this->value = $value;
         $this->checked = $checked;
+        $this->showError = $showError;
     }
 }

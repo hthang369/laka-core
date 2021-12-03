@@ -1,16 +1,11 @@
 @php
     $options = $attributes->class(['form-control', $class])->getAttributes();
+    $prefix = config('laka-core.prefix');
 @endphp
 <div class="{{$groupClass}}">
     {!! Form::textarea($name, $value, $options) !!}
 
-    @if(!empty($help))
-        <small id="help-{{ $name }}" class="form-text text-muted">{!! $help !!}</small>
-    @endif
+    @include("{$prefix}::components.forms.help-block")
 
-    @if(isset($errors) && $errors->has($name))
-        <div class="{{ $errors->has($name) ? 'invalid' : '' }}-feedback d-block">
-        {!! $errors->first($name) !!}
-        </div>
-    @endif
+    @include("{$prefix}::components.forms.errors")
 </div>
