@@ -20,6 +20,8 @@ use Laka\Core\Components\Common\Headline;
 use Laka\Core\Components\Common\Link;
 use Laka\Core\Components\Common\Media;
 use Laka\Core\Components\Common\Image;
+use Laka\Core\Components\Common\Progress;
+use Laka\Core\Components\Common\ProgressBar;
 use Laka\Core\Components\Common\Svg;
 use Laka\Core\Components\Common\Toasts;
 use Laka\Core\Components\Forms\Checkbox;
@@ -188,6 +190,14 @@ return [
         'toasts' => [
             'view'  => 'components.common.toasts',
             'class' => Toasts::class
+        ],
+        'progress' => [
+            'view'  => 'components.common.progress',
+            'class' => Progress::class
+        ],
+        'progress-bar' => [
+            'view'  => 'components.common.progress-bar',
+            'class' => ProgressBar::class
         ],
     ],
     'form-components' => [
