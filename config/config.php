@@ -15,6 +15,7 @@ use Laka\Core\Components\Common\CardHeader;
 use Laka\Core\Components\Common\CardText;
 use Laka\Core\Components\Common\CardTitle;
 use Laka\Core\Components\Common\Carousel;
+use Laka\Core\Components\Common\Col;
 use Laka\Core\Components\Common\Embed;
 use Laka\Core\Components\Common\Headline;
 use Laka\Core\Components\Common\Link;
@@ -22,6 +23,7 @@ use Laka\Core\Components\Common\Media;
 use Laka\Core\Components\Common\Image;
 use Laka\Core\Components\Common\Progress;
 use Laka\Core\Components\Common\ProgressBar;
+use Laka\Core\Components\Common\Row;
 use Laka\Core\Components\Common\Svg;
 use Laka\Core\Components\Common\Toasts;
 use Laka\Core\Components\Forms\Checkbox;
@@ -198,6 +200,14 @@ return [
         'progress-bar' => [
             'view'  => 'components.common.progress-bar',
             'class' => ProgressBar::class
+        ],
+        'row' => [
+            'view'  => 'components.common.row',
+            'class' => Row::class
+        ],
+        'col' => [
+            'view'  => 'components.common.col',
+            'class' => Col::class
         ],
     ],
     'form-components' => [

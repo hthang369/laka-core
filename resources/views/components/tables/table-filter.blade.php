@@ -1,7 +1,7 @@
 <td {{$attributes->merge(['scope' => 'col'])}}>
-    @if (!blank($field->cell) && is_callable($field->cell))
+    @if (!blank($field->cell) && is_callable($field->cell) && !is_null($cellData))
         {!! with($cellData, $field->cell); !!}
-    @elseif (str_is($field->key, 'action'))
+    @elseif (str_is($field->dataType, 'buttons'))
         {!! Form::button('<i class="fas fa-filter"></i>', ['class' => 'btn btn-sm btn-outline-primary ml-2', 'onclick' => 'filterAction()']) !!}
     @else
         @if (str_is($field->dataType, 'date'))
