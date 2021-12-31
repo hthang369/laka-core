@@ -20,9 +20,7 @@ trait FilterQueryString {
     {
         $query = $this->model instanceof Builder ? $this->model : $this->query();
 
-        $filters = collect($this->getFilters())->map(function ($values, $filter) {
-            return $this->resolve($filter, $values);
-        })->toArray();
+        $filters = $this->getResolveFilters();
 
         $this->model = app(Pipeline::class)
             ->send($query)
@@ -61,5 +59,12 @@ trait FilterQueryString {
         };
 
         return array_filter(request()->query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
+    }
+
+    protected function getResolveFilters()
+    {
+        return collect($this->getFilters())->map(function ($values, $filter) {
+            return $this->resolve($filter, $values);
+        })->toArray();
     }
 }

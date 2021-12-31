@@ -20,11 +20,11 @@ abstract class BaseClause {
     {
         $this->query = $query;
 
-        if(static::validate($this->values) === false) {
+        if($this->validate($this->values) === false) {
             return $this->query;
         }
 
-        static::apply($this->query);
+        $this->apply($this->query);
 
         return $nextFilter($query);
     }

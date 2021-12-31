@@ -17,16 +17,17 @@
 @push('scripts')
 <script>
     function filterAction() {
+        let params = new URLSearchParams(location.search)
         $('.table_filter').find('input').each(function(idx, item) {
-            let params = new URLSearchParams(location.search)
             if (item.value) {
                 params.set(item.name, item.value)
             } else {
                 params.delete(item.name)
             }
-            let url = params.toString() == '' ? '' : '?' + params.toString();
-            window.location.assign('{{request()->url()}}' + url)
         });
+        let url = params.toString() == '' ? '' : '?' + params.toString();
+        let fullUrl = new URL(url, '{{request()->url()}}');
+        window.location.replace(fullUrl.toString());
     }
 </script>
 @endpush
