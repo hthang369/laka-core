@@ -211,17 +211,21 @@ return [
         ],
     ],
     'form-components' => [
-        'bsInput' => [
-            'view'      => Input::class,
-            'params'    => ['name', 'type', 'class', 'groupClass', 'icon', 'prepent', 'size', 'value']
+        'btText' => [
+            'view'      => 'components.bootstrap.forms.input',
+            'params'    => ['name', 'value', 'options' => [], 'type' => 'text']
         ],
-        'bsCheckbox' => [
-            'view'      => Checkbox::class,
-            'params'    => ['name', 'label', 'custom', 'checked']
+        'btButton' => [
+            'view'      => 'components.bootstrap.forms.button',
+            'params'    => ['text', 'variant' => '', 'options' => [], 'type' => 'button', 'btnType' => 'button']
         ],
-        'bsRadio' => [
-            'view'      => Radio::class,
-            'params'    => ['name', 'label', 'custom', 'value', 'checked']
+        'btSubmit' => [
+            'view'      => 'components.bootstrap.forms.button',
+            'params'    => ['text', 'variant' => '', 'options' => [], 'type' => 'submit', 'btnType' => 'button']
+        ],
+        'btSelect' => [
+            'view'      => 'components.bootstrap.forms.select',
+            'params'    => ['name', 'list', 'selected', 'attributes' => [], 'options' => []]
         ]
     ]
 ];
