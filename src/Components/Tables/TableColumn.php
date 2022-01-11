@@ -3,7 +3,7 @@
 namespace Laka\Core\Components\Tables;
 
 use Laka\Core\Components\Component;
-use Laka\Core\Helpers\DataColumn;
+use Laka\Core\Grids\DataColumn;
 
 class TableColumn extends Component
 {

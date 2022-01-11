@@ -46,12 +46,6 @@ use Laka\Core\Components\Tables\TableSort;
 
 return [
     'prefix' => 'bootstrap',
-    'pagination' => [
-        'onEachPage' => 1, // Số trang hiển thị 2 bên trang hiện tại
-        'numberFirstPage' => 1, // Số trang đầu tiên cân hiển thị,
-        'numberLastPage' => 1, // Số trang cuối cân hiển thị
-        'perPage' => 15
-    ],
     'components' => [
         'datepicker' => [
             'view'  => 'components.forms.datepicker',
@@ -118,7 +112,7 @@ return [
             'class' => TableFilter::class
         ],
         'pagination' => [
-            'view'  => 'components.tables.pagination',
+            'view'  => 'components.tables.pagination.pagination',
             'class' => Pagination::class
         ],
         'alert' => [

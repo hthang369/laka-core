@@ -46,6 +46,13 @@ if (!function_exists('attributes_get')) {
     }
 }
 
+if (!function_exists('array_css_class')) {
+    function array_css_class($arrClass)
+    {
+        return Arr::toCssClasses($arrClass);
+    }
+}
+
 if ( ! function_exists('highlight_code'))
 {
 	/**

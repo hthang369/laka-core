@@ -1,6 +1,6 @@
 <?php
 
-namespace Laka\Core\Traits;
+namespace Laka\Core\Traits\Entities;
 
 use Laka\Core\Support\Mysql;
 use Illuminate\Support\Facades\DB;

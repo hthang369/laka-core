@@ -32,8 +32,12 @@ class LakaCoreServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../../config/config.php' => config_path('laka-core.php'),
+                __DIR__ . '/../../config/laka.php' => config_path('laka.php'),
             ], 'config');
+
+            $this->publishes([
+                __DIR__.'/../resources/views/components/grids/header-info.blade.php' => resource_path("views/vendor/{$prefix}/components/grids/header-info.blade.php"),
+            ], ['laka-views']);
         }
     }
 
@@ -45,6 +49,7 @@ class LakaCoreServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'laka-core');
+        $this->mergeConfigFrom(__DIR__ . '/../config/laka.php', 'laka');
     }
 
     protected function registerBladeComponents()

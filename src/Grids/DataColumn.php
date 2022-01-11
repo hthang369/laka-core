@@ -1,12 +1,14 @@
 <?php
 
-namespace Laka\Core\Helpers;
+namespace Laka\Core\Grids;
 
-use Laka\Core\Traits\CallableData;
+use Laka\Core\Traits\Grids\CallableData;
 
 class DataColumn
 {
     use CallableData;
+
+    protected $privateField = [];
 
     private $key;
     private $label;

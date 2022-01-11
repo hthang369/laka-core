@@ -4,9 +4,9 @@ namespace Laka\Core\Entities;
 
 use Laka\Core\Observers\BaseModelObserver;
 use Illuminate\Database\Eloquent\Model;
-use Laka\Core\Traits\FullTextSearch;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
+use Laka\Core\Traits\Entities\FullTextSearch;
 
 class BaseModel extends Model
 {

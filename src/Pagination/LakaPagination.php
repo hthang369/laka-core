@@ -8,6 +8,7 @@ class LakaPagination extends LengthAwarePaginator
 {
     private $nextIcon = 'fa fa-angle-right';
     private $prevIcon = 'fa fa-angle-left';
+    private $data;
 
     public function __construct($items, $total, $perPage, $currentPage = null, array $options = [])
     {
@@ -20,7 +21,7 @@ class LakaPagination extends LengthAwarePaginator
         }
 
         $this->setDefaultView();
-        $this->onEachSide(config('laka-core.pagination.onEachPage'));
+        $this->onEachSide(config('laka.pagination.onEachPage'));
     }
 
     public function setDefaultView($viewName = null)
@@ -75,6 +76,11 @@ class LakaPagination extends LengthAwarePaginator
         ];
     }
 
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
     /**
      * Render the paginator using the given view.
      *
@@ -84,7 +90,7 @@ class LakaPagination extends LengthAwarePaginator
      */
     public function render($view = null, $data = [])
     {
-        return static::viewFactory()->make($view ?: static::$defaultView, array_merge($data, [
+        return static::viewFactory()->make($view ?: static::$defaultView, array_merge($data, $this->data, [
             'paginator' => $this,
             'links' => $this->linkCollection(),
             'attributes' => new ComponentAttributeBag(),

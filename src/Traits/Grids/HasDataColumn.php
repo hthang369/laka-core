@@ -1,10 +1,10 @@
 <?php
 
-namespace Laka\Core\Traits;
+namespace Laka\Core\Traits\Grids;
 
 use Illuminate\Database\Eloquent\Model;
-use Laka\Core\Helpers\DataColumn;
-use Laka\Core\Helpers\LookupData;
+use Laka\Core\Grids\DataColumn;
+use Laka\Core\Grids\LookupData;
 
 trait HasDataColumn
 {

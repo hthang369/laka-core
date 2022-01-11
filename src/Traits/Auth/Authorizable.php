@@ -1,13 +1,13 @@
 <?php
 
-namespace Laka\Core\Traits;
+namespace Laka\Core\Traits\Auth;
 
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Laka\Core\Http\Response\WebResponse;
+use Laka\Core\Traits\Common\CommonFunction;
 use Prettus\Validator\Exceptions\ValidatorException;
-use \Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 /*
  * A trait to handle authorization based on users permissions for given controller

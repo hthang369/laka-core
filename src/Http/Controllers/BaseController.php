@@ -6,7 +6,6 @@ use Laka\Core\Contracts\BaseControllerInterface;
 use Laka\Core\Http\Response\WebResponse;
 use Laka\Core\Repositories\BaseRepository;
 use Laka\Core\Support\Factory;
-use Laka\Core\Traits\Authorizable;
 use Laka\Core\Validators\BaseValidator;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -15,6 +14,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Laka\Core\Traits\Auth\Authorizable;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 
@@ -194,7 +194,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
         return data_get($this->listDefaultViewName, $key, $this->defaultName.'.'.$key);
     }
 
-    private function getMessageResponse($key)
+    protected function getMessageResponse($key)
     {
         return data_get($this->messageResponse, $key, null);
     }

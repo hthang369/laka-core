@@ -3,7 +3,7 @@
 namespace Laka\Core\Components\Tables;
 
 use Laka\Core\Components\Component;
-use Laka\Core\Traits\HasDataColumn;
+use Laka\Core\Traits\Grids\HasDataColumn;
 
 class Table extends Component
 {
@@ -37,7 +37,7 @@ class Table extends Component
         $pagination = [],
         $bordered = true,
         $hover = false,
-        $stickyHeader = null,
+        $stickyHeader = false,
         $tableVariant = '',
         $size = ''
     )
@@ -53,6 +53,7 @@ class Table extends Component
         $this->fields = $this->getFields($fields, $items);
         $this->items = $items;
         $this->pagination = $this->getPagination($pagination);
+        $this->stickyHeader = $stickyHeader ?? false;
         $this->isFilters = count(array_filter($this->fields, function($item) {
             return (bool)$item->filtering;
         })) > 0;

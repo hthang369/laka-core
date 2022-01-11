@@ -6,7 +6,6 @@ use Laka\Core\Contracts\RepositoryInterface;
 use Laka\Core\Exceptions\RepositoryException;
 use Laka\Core\Repositories\FilterQueryString\FilterQueryString;
 use Laka\Core\Repositories\FilterQueryString\Filters\OrderbyClause;
-use Laka\Core\Traits\RequestParamTrait;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Laka\Core\Traits\Entities\RequestParamTrait;
 
 abstract class BaseRepository implements RepositoryInterface
 {
@@ -281,9 +281,9 @@ abstract class BaseRepository implements RepositoryInterface
     {
         if (request()->has('perPage')) {
             $limit = request()->query('perPage');
-            return $limit != -1 ? $limit : config('constants.pagination.items_per_page');
+            return $limit != -1 ? $limit : config('laka.pagination.perPage');
         } else  {
-            return config('constants.pagination.items_per_page');
+            return config('laka.pagination.perPage');
         }
     }
 

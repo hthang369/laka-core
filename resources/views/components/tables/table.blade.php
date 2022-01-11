@@ -1,27 +1,11 @@
+@php
+$prefix = config('laka-core.prefix');
+@endphp
 <div class="{{$responsive}}">
     <table {{ $attributes->class($tableClass) }}>
-        <thead>
-            <x-table-row scope="header">
-                @foreach ($fields as $field)
-                    @continue(!$field->visible)
-                    <x-table-column :field="$field" :isHeader="true">
-                        {!! $field->label !!}
-                    </x-table-column>
-                @endforeach
-            </x-table-row>
-            @if ($isFilters)
-            <x-table-row scope="filter" class="table_filter">
-                @foreach ($fields as $field)
-                    @continue(!$field->visible)
-                    @if ($field->filtering || str_is($field->dataType, 'buttons'))
-                        <x-table-filter class="p-1" :field="$field" />
-                    @else
-                        <x-table-column :field="new Laka\Core\Helpers\DataColumn" />
-                    @endif
-                @endforeach
-            </x-table-row>
-            @endif
-        </thead>
+        @if (!$stickyHeader)
+        @include("{$prefix}::components.tables.table-header")
+        @endif
         <tbody>
             @forelse ($items as $item)
                 <x-table-row>
@@ -38,7 +22,7 @@
                 </x-table-row>
             @empty
                 @php
-                    $field = new Laka\Core\Helpers\DataColumn;
+                    $field = new Laka\Core\Grids\DataColumn;
                     $field->tdAttr = ['colspan' => count($fields)];
                     $prefix = config('laka-core.prefix');
                 @endphp

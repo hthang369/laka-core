@@ -9,5 +9,7 @@ return [
     'btn_delete' => 'Xóa',
     'show_result' => 'Hiển thị %d đến %d trong số %d kết quả',
     'action'    => 'Hành động',
-    'select'    => 'Chọn ...'
+    'select'    => 'Chọn ...',
+    'action_question_delete' => 'Bạn có chắc chắn muốn xóa?',
+    'loading_text' => 'Đang tải',
 ];

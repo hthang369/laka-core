@@ -1,6 +1,6 @@
 <?php
 
-namespace Laka\Core\Traits;
+namespace Laka\Core\Traits\Grids;
 
 trait CallableData
 {

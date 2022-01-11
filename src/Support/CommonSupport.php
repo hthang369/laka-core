@@ -1,6 +1,8 @@
 <?php
 namespace Laka\Core\Support;
 
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
 
 class CommonSupport
@@ -53,5 +55,20 @@ class CommonSupport
             array_splice($default, $idx, 1);
         }
         $this->setProtectedProperty($object, $prop, $default);
+    }
+
+    public function callApi($method, $url, $params = [], $headers = [])
+    {
+        $headers = array_merge(['Accept' => 'application/json'], $headers);
+        try {
+            $response = Http::withHeaders($headers)->{$method}($url, $params);
+
+            if ($response->ok())
+                return $response->collect();
+
+            return $response->body();
+        } catch(ConnectionException $e) {
+            throw $e;
+        }
     }
 }

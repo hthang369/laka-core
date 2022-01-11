@@ -1,5 +1,5 @@
 <?php
-namespace Laka\Core\Traits;
+namespace Laka\Core\Traits\Common;
 
 use Illuminate\Support\Facades\Request;
 

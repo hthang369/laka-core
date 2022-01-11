@@ -4,13 +4,16 @@ namespace Laka\Core\Presenters;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Laka\Core\Contracts\PresenterInterface;
+use Laka\Core\Grids\GenericButton;
 use Laka\Core\Helpers\Classes;
-use Laka\Core\Traits\CommonFunction;
-use Laka\Core\Traits\HasDataColumn;
+use Laka\Core\Traits\Common\CommonFunction;
+use Laka\Core\Traits\Grids\ConfiguresGrid;
+use Laka\Core\Traits\Grids\HasDataColumn;
+use Laka\Core\Traits\Grids\RendersButtons;
 
 abstract class BaseDataGridPresenter implements PresenterInterface
 {
-    use HasDataColumn, CommonFunction;
+    use HasDataColumn, CommonFunction, RendersButtons, ConfiguresGrid;
 
     private $fields = [];
     private $actionName = 'action';
@@ -27,6 +30,24 @@ abstract class BaseDataGridPresenter implements PresenterInterface
     ];
     protected $resultData = [];
     protected $paginator = null;
+
+    protected $id;
+    protected $name;
+
+    public function __construct()
+    {
+        $this->configureButtons();
+    }
+
+    /**
+    * Configure rendered buttons, or add your own
+    *
+    * @return void
+    */
+    protected function configureButtons()
+    {
+        $this->setButtons();
+    }
 
     protected function setColumns()
     {
@@ -58,60 +79,11 @@ abstract class BaseDataGridPresenter implements PresenterInterface
                 $item = data_get(call_user_func([$this, 'customizeRowData'], $itemData), 'data');
             }
             if (blank($item->{$this->actionName})) {
-                $actions = [
-                    $this->getEditActionBtn($item),
-                    $this->getDetailActionBtn($item),
-                    $this->getDeleteActionBtn($item)
-                ];
+                $actions = $this->getButtons(GenericButton::TYPE_ROW);
                 data_set($item, $this->actionName, $actions);
             }
             return $item;
-        })->all();
-    }
-
-    private function getEditActionBtn($item)
-    {
-        return $this->getFieldButton('edit', '', [
-            'class' => 'btn-primary',
-            'icon' => 'far fa-edit',
-            'title' => translate('table.btn_edit'),
-            'visible' => $this->visibleEdit($item)
-        ]);
-    }
-
-    private function getDetailActionBtn($item)
-    {
-        return $this->getFieldButton('show', '', [
-            'class' => 'btn-info',
-            'icon' => 'fas fa-info-circle',
-            'title' => translate('table.btn_detail'),
-            'visible' => $this->visibleDetail($item)
-        ]);
-    }
-
-    private function getDeleteActionBtn($item)
-    {
-        return $this->getFieldButton('destroy', '', [
-            'class' => 'btn-danger',
-            'icon' => 'far fa-trash-alt',
-            'title' => translate('table.btn_delete'),
-            'visible' => $this->visibleDelete($item)
-        ]);
-    }
-
-    protected function visibleEdit($item)
-    {
-        return true;
-    }
-
-    protected function visibleDetail($item)
-    {
-        return true;
-    }
-
-    protected function visibleDelete($item)
-    {
-        return true;
+        })->toArray();
     }
 
     /**
@@ -124,6 +96,8 @@ abstract class BaseDataGridPresenter implements PresenterInterface
     public function present($results)
     {
         if ($results instanceof LengthAwarePaginator) {
+            if (method_exists($results, 'setData'))
+                $results->setData(['showPageSize' => $this->showPageSizeSelector(), 'showInfo' => $this->showInfo()]);
             $this->paginator = $results;
             return $this->resultData = $this->parsePresent($results, $results->total());
         }
@@ -143,13 +117,52 @@ abstract class BaseDataGridPresenter implements PresenterInterface
         ]);
     }
 
-    public function render()
+    protected function editToolbarButton($key, $options)
     {
-        $prefix = config('laka-core.prefix');
-        return view("{$prefix}::data-grid", [
-            'sectionCode' => $this->getSectionCode(),
-            'data' => $this->resultData,
-            'paginator' => $this->paginator
-        ])->render();
+        $this->editButton($key, $options, GenericButton::TYPE_TOOLBAR);
+    }
+
+    protected function editRowButton($key, $options)
+    {
+        $this->editButton($key, $options, GenericButton::TYPE_ROW);
+    }
+
+    private function editButton($key, $options, $type)
+    {
+        $button = $this->getButton($key, $type);
+        if (!is_object($button)) return;
+        $refector = new \ReflectionClass(get_class($button));
+        $attrs = $refector->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
+        array_walk($attrs, function($item) use(&$button, $options) {
+            $keyName = $item->getName();
+            if (in_array($keyName, array_keys($options))) {
+                $button->{$keyName} = $options[$keyName];
+            }
+        });
+        $methods = $refector->getMethods(\ReflectionMethod::IS_PUBLIC);
+        array_walk($methods, function($method) use(&$button, $options) {
+            $keyName = $method->getName();
+            if (in_array($keyName, array_keys($options))) {
+                $button->$keyName($options[$keyName]);
+            }
+        });
+    }
+
+    protected function addToolbarButton($key, $options)
+    {
+        $this->addButton($key, $options, GenericButton::TYPE_TOOLBAR);
+    }
+
+    protected function addRowButton($key, $options)
+    {
+        $this->addButton($key, $options, GenericButton::TYPE_ROW);
+    }
+
+    private function addButton($key, $options, $type)
+    {
+        if (!$this->hasButton($key, $type)) {
+            $button = GenericButton::make($options);
+            data_set($this->buttons, "{$type}.{$key}", $button);
+        }
     }
 }

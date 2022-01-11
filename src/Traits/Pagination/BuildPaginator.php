@@ -1,5 +1,5 @@
 <?php
-namespace Laka\Core\Traits;
+namespace Laka\Core\Traits\Pagination;
 
 use Illuminate\Container\Container;
 use Illuminate\Pagination\Paginator;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laka\Core\Helpers;
+namespace Laka\Core\Grids;
 
-use Laka\Core\Traits\CallableData;
+use Laka\Core\Traits\Grids\CallableData;
 
 class LookupData
 {
