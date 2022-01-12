@@ -7,6 +7,7 @@
     hover
     :id="$grid->getId()"
     :sectionCode="$sectionCode"
+    header-variant="primary"
     :items="data_get($data, 'rows')"
     :fields="data_get($data, 'fields')"
     :pagination="data_get($data, 'paginator')">

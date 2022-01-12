@@ -18,6 +18,7 @@ class Table extends Component
     public $stickyHeader;
     public $tableClass;
     public $isFilters;
+    public $headerClass;
     /**
      * The component alias name.
      *
@@ -39,6 +40,7 @@ class Table extends Component
         $hover = false,
         $stickyHeader = false,
         $tableVariant = '',
+        $headerVariant = '',
         $size = ''
     )
     {
@@ -66,6 +68,9 @@ class Table extends Component
         }
         if (!empty($size)) {
             array_push($this->tableClass, sprintf('table-%s', $size));
+        }
+        if (!empty($headerVariant)) {
+            $this->headerClass = sprintf('bg-%s', $headerVariant);
         }
     }
 }

@@ -18,17 +18,19 @@ class TableColumn extends Component
     public $field;
     public $cellData;
     public $isRowHeader;
+    public $rowType;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(DataColumn $field, $data = null, $isHeader = false)
+    public function __construct(DataColumn $field, $data = null, $isHeader = false, $rowType = 'row')
     {
         $this->field = $field;
         $this->cellData = $data;
         $this->isRowHeader = $isHeader;
+        $this->rowType = $rowType;
         $this->tag = $isHeader ? 'th' : 'td';
     }
 }
