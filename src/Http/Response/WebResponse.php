@@ -84,16 +84,18 @@ class WebResponse
         if ($message === null) {
             $message = translate('response.validation_fail');
         }
-        $errors = $errors instanceof Arrayable ? $errors->toArray() : $errors;
+        $errors = self::getDataToArray($errors);
         return static::makeResponseError($routeName, Response::HTTP_FOUND, $errors, $message);
     }
 
     protected static function makeResponse(string $viewName, bool $success, int $code, string $message, $data = null, array $errors = [], array $headers = [])
     {
+        $resultData = self::getDataToArray($data);
         $content = [
             'success' => $success,
             'message' => $message,
-            'data'    => $data instanceof Arrayable ? $data->toArray() : $data,
+            'grid'    => data_get($resultData, 'grid'),
+            'data'    => self::getDataToArray(data_get($resultData, 'result')),
             'errors'  => $errors
         ];
 
@@ -105,7 +107,7 @@ class WebResponse
         $content = [
             'success' => $success,
             'message' => $message,
-            'data'    => $data instanceof Arrayable ? $data->toArray() : $data,
+            'data'    => self::getDataToArray($data),
             'errors'  => $errors
         ];
 
@@ -119,5 +121,10 @@ class WebResponse
             'message' => $message
         ];
         return redirect()->intended($routeName, $code, $headers)->with($content)->withInput()->withErrors($errors);
+    }
+
+    private static function getDataToArray($data)
+    {
+        return $data instanceof Arrayable ? $data->toArray() : $data;
     }
 }
