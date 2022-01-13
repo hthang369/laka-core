@@ -1,4 +1,4 @@
-<span class="d-flex align-items-center">
+<span class="pager-info d-flex align-items-center">
     {!! sprintf(
             translate(config('laka.pager.infoText')),
             $paginator->firstItem(),

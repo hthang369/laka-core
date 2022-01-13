@@ -24,4 +24,9 @@ trait PresenterDataGrid
         }
         return parent::parserResult($result);
     }
+
+    public function getPresenterGrid()
+    {
+        return $this->presenterGrid;
+    }
 }

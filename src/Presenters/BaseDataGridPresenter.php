@@ -83,7 +83,7 @@ abstract class BaseDataGridPresenter implements PresenterInterface
                 data_set($item, $this->actionName, $actions);
             }
             return $item;
-        })->toArray();
+        })->all();
     }
 
     /**

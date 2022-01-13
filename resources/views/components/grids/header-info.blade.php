@@ -1,13 +1,13 @@
-<div class="d-flex justify-content-between">
-    <p class="d-flex align-items-center">
-        <label class="mr-2"><b>@lang('common.total'):</b></label>
-        <label>{{ $total }}</label>
-    </p>
+<div class="d-flex justify-content-between mb-3">
+    <div class="d-flex align-items-center">
+        <label class="mr-2 mb-0"><b>@lang('common.total'):</b></label>
+        <label class="mb-0">{{ $total }}</label>
+    </div>
 
     @if ($pages > 0)
-    <p class="">
-        <b>@lang('common.pages')</b>
-        <label>{{ $currentPage }} / {{ $pages }}</label>
-    </p>
+    <div class="header-pager-info d-flex align-items-center">
+        <label class="mr-2 mb-0"><b>@lang('common.pages')</b></label>
+        <label class="mb-0">{{ $currentPage }} / {{ $pages }}</label>
+    </div>
     @endif
 </div>

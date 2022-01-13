@@ -19,11 +19,11 @@ trait RendersGrid
      * @return string
      * @throws \Throwable
      */
-    public function render()
+    public function render($data)
     {
         $data = [
             'grid' => $this,
-            'data' => $this->resultData,
+            'data' => array_merge($this->resultData, $data),
             'sectionCode' => $this->getSectionCode()
         ];
         return view($this->getGridView(), $data)->render();

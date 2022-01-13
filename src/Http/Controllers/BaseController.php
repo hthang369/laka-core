@@ -53,12 +53,15 @@ abstract class BaseController extends Controller implements BaseControllerInterf
 
     protected $messageResponse = [];
 
+    protected $data = [];
+
     /**
      * BaseController constructor.
      *
      * @param BaseValidator $validator
      */
-    public function __construct(BaseValidator $validator) {
+    public function __construct(BaseRepository $repository, BaseValidator $validator) {
+        $this->repository = $repository;
         $this->validator = $validator;
         $this->factory = new Factory($this);
         $this->setControllerActionPermission($this->permissionActions);
@@ -79,6 +82,14 @@ abstract class BaseController extends Controller implements BaseControllerInterf
         return $this->index();
     }
 
+    protected function getData($data = null)
+    {
+        $presenterGrid = method_exists($this->repository, 'getPresenterGrid') ? $this->repository->getPresenterGrid() : null;
+        array_push($this->data, $presenterGrid, $data);
+        list($grid, $result) = $this->data;
+        return compact('grid', 'result');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -88,7 +99,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
     public function index() {
         $list = $this->repository->paginate();
 
-        return WebResponse::success($this->getViewName(__FUNCTION__), $list, $this->getMessageResponse(__FUNCTION__));
+        return WebResponse::success($this->getViewName(__FUNCTION__), $this->getData($list), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -99,8 +110,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @throws Exception
      */
     public function create() {
-        $data = null;
-        return WebResponse::success($this->getViewName(__FUNCTION__), $data, $this->getMessageResponse(__FUNCTION__));
+        return WebResponse::success($this->getViewName(__FUNCTION__), $this->getData(), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -112,7 +122,8 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      */
     public function edit($id) {
         $data = $this->repository->show($id);
-        return WebResponse::success($this->getViewName(__FUNCTION__), $data, $this->getMessageResponse(__FUNCTION__));
+
+        return WebResponse::success($this->getViewName(__FUNCTION__), $this->getData($data), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -143,7 +154,8 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      */
     public function show($id) {
         $data = $this->repository->show($id);
-        return WebResponse::success($this->getViewName(__FUNCTION__), $data, $this->getMessageResponse(__FUNCTION__));
+
+        return WebResponse::success($this->getViewName(__FUNCTION__), $this->getData($data), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**

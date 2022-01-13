@@ -2,7 +2,7 @@
 $prefix = config('laka-core.prefix');
 @endphp
 @if ($paginator->hasPages())
-<div class="d-flex justify-content-between">
+<div class="paginatior d-flex justify-content-between">
     @if ($showPageSize)
     @include("{$prefix}::components.tables.pagination.pager-dropdown")
     @endif

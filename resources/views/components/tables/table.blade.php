@@ -3,9 +3,7 @@ $prefix = config('laka-core.prefix');
 @endphp
 <div class="{{$responsive}}">
     <table {{ $attributes->class($tableClass) }}>
-        @if (!$stickyHeader)
         @include("{$prefix}::components.tables.table-header")
-        @endif
         <tbody>
             @forelse ($items as $item)
                 <x-table-row>

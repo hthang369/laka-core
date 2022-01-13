@@ -3,7 +3,7 @@
 namespace Laka\Core\Repositories\FilterQueryString\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Laka\Core\Traits\FullTextSearch;
+use Laka\Core\Traits\Entities\FullTextSearch;
 
 class FullTextSearchClause extends BaseClause
 {
