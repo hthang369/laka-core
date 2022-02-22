@@ -14,9 +14,14 @@ class LakaCoreServiceProvider extends ServiceProvider
         'common-support' => CommonSupport::class
     ];
 
+    private function getPrefix()
+    {
+        return config('laka-core.prefix');
+    }
+
     public function boot()
     {
-        $prefix = config('laka-core.prefix');
+        $prefix = $this->getPrefix();
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', $prefix);
 
@@ -65,8 +70,10 @@ class LakaCoreServiceProvider extends ServiceProvider
 
     protected function registerFormComponents()
     {
-        collect(config('laka-core.form-components'))->each(function($item, $alias) {
-            Form::component($alias, $item['view'], $item['params']);
+        $prefix = $this->getPrefix();
+
+        collect(config('laka-core.form-components'))->each(function($item, $alias) use($prefix) {
+            Form::component($alias, $prefix.'::'.$item['view'], $item['params']);
         });
 
         Form::macro('skipInput', function(...$params) {

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Arr;
+
 if (!function_exists('get_classes')) {
     function get_classes($classes) {
         $result = [];
@@ -104,4 +106,45 @@ if ( ! function_exists('highlight_code'))
 			$str
 		);
 	}
+}
+
+if (!function_exists('laka_link_method')) {
+    function laka_link_method($method, $link, $title = null, $variant = null, $parameters = [], $attributes = [], $secure = null, $escape = true)
+    {
+        $icon = data_get($attributes, 'icon');
+        $content = $title;
+        if (!blank($icon)) {
+            $content = "<i class='fa {$icon} mr-1'></i>".$title;
+            $escape = false;
+        }
+        $variant = $variant ?? 'secondary';
+        $classAttrs = array_unique(array_merge(['btn', "btn-{$variant}"], explode(' ', data_get($attributes, 'class', ''))));
+        $attributesNew = array_add(array_except($attributes, ['icon', 'class']), 'class', array_css_class($classAttrs));
+
+        if (str_is($method, 'link'))
+            return app('html')->{$method}($link, $content, $attributesNew, $secure, $escape);
+
+        return app('html')->{$method}($link, $content, $parameters, $attributesNew, $secure, $escape);
+    }
+}
+
+if (!function_exists('bt_link_to')) {
+    function bt_link_to($url, $title = null, $variant = null, $attributes = [], $secure = null, $escape = true)
+    {
+        return laka_link_method('link', $url, $title, $variant, [], $attributes, $secure, $escape);
+    }
+}
+
+if (!function_exists('bt_link_to_route')) {
+    function bt_link_to_route($name, $title = null, $variant = null, $parameters = [], $attributes = [], $secure = null, $escape = true)
+    {
+        return laka_link_method('linkRoute', $name, $title, $variant, $parameters, $attributes, $secure, $escape);
+    }
+}
+
+if (!function_exists('bt_link_to_action')) {
+    function bt_link_to_action($action, $title = null, $variant = null, $parameters = [], $attributes = [], $secure = null, $escape = true)
+    {
+        return laka_link_method('linkAction', $action, $title, $variant, $parameters, $attributes, $secure, $escape);
+    }
 }
