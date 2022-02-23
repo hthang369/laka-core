@@ -6,4 +6,10 @@
     $options = array_merge($options, compact('type'));
     $content = blank($icon) ? $text : "<i class='fa {$icon} mr-1'></i>".$text;
 @endphp
+@if ((!blank($action) && !blank($sectionCode)))
+@can("{$action}_{$sectionCode}")
 {!! Form::{$btnType}($content, array_merge(['class' => array_css_class(['btn', "btn-{$variant}", $className])], $options)) !!}
+@endcan
+@else
+{!! Form::{$btnType}($content, array_merge(['class' => array_css_class(['btn', "btn-{$variant}", $className])], $options)) !!}
+@endif

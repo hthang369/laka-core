@@ -71,4 +71,28 @@ class CommonSupport
             throw $e;
         }
     }
+
+    public function getOptionsByEnumType($enumClass)
+    {
+        $reflector = new \ReflectionClass($enumClass);
+        $instance = resolve($enumClass);
+        return array_map(function($item) use($instance) {
+            return trans(call_user_func([$instance, 'getTranslate'], $item));
+        }, array_flip($reflector->getConstants()));
+    }
+
+    public function getLookupOptionsByEnumType($enumClass)
+    {
+        $data = $this->getOptionsByEnumType($enumClass);
+        $lookup = [];
+        foreach($data as $key => $value) {
+            $lookup[] = ['id' => $key, 'name' => $value];
+        }
+        return $lookup;
+    }
+
+    public function formatBadge($value, $variant = 'secondary')
+    {
+        return sprintf('<span class="badge badge-%s">%s</span>', $variant, $value);
+    }
 }

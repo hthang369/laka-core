@@ -31,7 +31,8 @@ trait HasDataColumn
                 'dataSource' => null, // dữ liệu từ table liên kết
                 'displayExpr' => '', // cột hiển thị giá trị lên select
                 'valueExpr' => '' // Giá trị của từng option select
-            ]
+            ],
+            'formatter' => ''
         ];
     }
 

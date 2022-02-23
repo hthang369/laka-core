@@ -26,6 +26,7 @@ class DataColumn
     private $isRowHeader = false;
     private $stickyColumn = false;
     private $cell;
+    private $formatter;
     /**
      * @return LookupData
      */
