@@ -95,7 +95,7 @@ class WebResponse
             'success' => $success,
             'message' => $message,
             'grid'    => data_get($resultData, 'grid'),
-            'data'    => self::getDataToArray(data_get($resultData, 'result')),
+            'data'    => self::getDataToArray(data_get($resultData, 'result', $resultData)),
             'errors'  => $errors
         ];
 
