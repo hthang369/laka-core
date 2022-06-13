@@ -14,6 +14,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Route;
 use Laka\Core\Traits\Auth\Authorizable;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
@@ -142,7 +143,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
             $data = $data->toArray();
         }
 
-        return WebResponse::created(route($this->getViewName(__FUNCTION__)), $data, $this->getMessageResponse(__FUNCTION__));
+        return WebResponse::created($this->getRouteName(__FUNCTION__), $data, $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -176,7 +177,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
             $data = $data->toArray();
         }
 
-        return WebResponse::updated(route($this->getViewName(__FUNCTION__), $id), $data, $this->getMessageResponse(__FUNCTION__));
+        return WebResponse::updated($this->getRouteName(__FUNCTION__, $id), $data, $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -188,7 +189,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
     public function destroy($id) {
         $this->repository->delete($id);
 
-        return WebResponse::deleted(route($this->getViewName(__FUNCTION__), $id), $this->getMessageResponse(__FUNCTION__));
+        return WebResponse::deleted($this->getRouteName(__FUNCTION__, $id), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -222,5 +223,14 @@ abstract class BaseController extends Controller implements BaseControllerInterf
     protected function setViewName($listViewName)
     {
         $this->listDefaultViewName = array_merge($this->listDefaultViewName, $listViewName);
+    }
+
+    protected function getRouteName($key, $params = [])
+    {
+        $routeName = $this->getViewName($key);
+        if (count(Route::getRoutes()->getByName($routeName)->parameterNames()) == 0) {
+            $params = [];
+        }
+        return route($routeName, $params);
     }
 }

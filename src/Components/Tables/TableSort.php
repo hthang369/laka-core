@@ -38,7 +38,7 @@ class TableSort extends Component
             'sort' => $this->field,
             'direction' => str_is(request('sort'), $this->field) ? data_get($this->direction, request('direction')) : 'asc'
         ]);
-        $this->styleColor = str_is(request('sort'), $this->field) ? 'blue' : 'gray';
+        $this->styleColor = str_is(request('sort'), $this->field) ? '#fff' : '#aaa';
         $this->sortIcon = !str_is(request('sort'), $this->field) ? 'fa-sort' : data_get($this->directionIcon, request('direction'));
     }
 }
