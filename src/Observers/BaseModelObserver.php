@@ -9,6 +9,7 @@ class BaseModelObserver
     public function creating(BaseModel $baseModel)
     {
         $baseModel->setCreatedUpdatedUsers();
+        $baseModel->listenCreating();
     }
 
     /**
@@ -20,6 +21,7 @@ class BaseModelObserver
     public function saving(BaseModel $baseModel)
     {
         $baseModel->setCreatedUpdatedUsers();
+        $baseModel->listenSaving();
     }
 
     /**
@@ -31,6 +33,7 @@ class BaseModelObserver
     public function updating(BaseModel $baseModel)
     {
         $baseModel->setCreatedUpdatedUsers();
+        $baseModel->listenUpdating();
     }
 
     /**
@@ -41,6 +44,7 @@ class BaseModelObserver
      */
     public function created(BaseModel $baseModel)
     {
+        $baseModel->listenCreated();
     }
 
     /**

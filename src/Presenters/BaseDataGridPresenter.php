@@ -164,5 +164,7 @@ abstract class BaseDataGridPresenter implements PresenterInterface
             $button = GenericButton::make($options);
             data_set($this->buttons, "{$type}.{$key}", $button);
         }
+
+        $this->buttons[$type] = $this->getButtons($type);
     }
 }

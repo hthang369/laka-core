@@ -1,5 +1,5 @@
 @section('caption_page')
-    {!! $grid->renderHeaderInfo() !!}
+    {!! $grid->renderHeaderInfo(compact('grid')) !!}
 @show
 <x-table
     :responsive="true"

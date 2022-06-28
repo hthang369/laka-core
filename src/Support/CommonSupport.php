@@ -22,6 +22,12 @@ class CommonSupport
         return $property;
     }
 
+    public function getViewName($name)
+    {
+        $prefix = config('laka-core.prefix');
+        return "{$prefix}::components.{$name}";
+    }
+
     public function setProtectedProperty($object, $key, $value)
     {
         $property = $this->getObjectProperty($object, $key);

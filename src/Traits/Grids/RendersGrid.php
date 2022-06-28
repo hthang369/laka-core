@@ -19,14 +19,14 @@ trait RendersGrid
      * @return string
      * @throws \Throwable
      */
-    public function render($data)
+    public function render($data = [])
     {
-        $data = [
+        $newData = [
             'grid' => $this,
             'data' => array_merge($this->resultData, $data),
             'sectionCode' => $this->getSectionCode()
         ];
-        return view($this->getGridView(), $data)->render();
+        return view($this->getGridView(), $newData)->render();
     }
 
     /**
@@ -58,9 +58,9 @@ trait RendersGrid
      */
     public function renderHeaderInfo()
     {
-        $params = func_get_args();
+        $params = array_wrap(array_first(func_get_args()));
 
-        $data = array_merge(array_only($this->resultData, ['total', 'currentPage', 'pages']), head($params));
+        $data = array_merge(array_only($this->resultData, ['total', 'currentPage', 'pages']), $params);
 
         return view($this->getHeaderInfoView(), $data)->render();
     }

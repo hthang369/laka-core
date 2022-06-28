@@ -11,16 +11,9 @@
     @endif --}}
 
     @if (!$noBody)
-        <div {!! attributes_get($bodyAttr) !!}>
-            @if (blank($title))
-                {!! $title !!}
-            @else
-                @php($titleCompo = "{$prefix}::common.card-title")
-                <x-dynamic-component :component="$titleCompo" :text="$title" />
-            @endif
-
+        <x-card-body class="{{$bodyClass}}">
             {!! $slot !!}
-        </div>
+        </x-card-body>
     @else
         {!! $slot !!}
     @endif

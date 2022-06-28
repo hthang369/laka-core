@@ -1,0 +1,16 @@
+<?php
+
+namespace $MODULE_NAMESPACE$\Http\Controllers$SUBFOLDER$;
+
+use $MODULE_NAMESPACE$\Repositories$SUBFOLDER$\$CLASSNAME$Repository;
+use $MODULE_NAMESPACE$\Validators$SUBFOLDER$\$CLASSNAME$Validator;
+use Laka\Core\Http\Controllers\CoreController;
+use Laka\Core\Responses\BaseResponse;
+
+class $CLASS$ extends CoreController
+{
+    public function __construct($CLASSNAME$Repository $repository, $CLASSNAME$Validator $validator, BaseResponse $response)
+    {
+        parent::__construct($repository, $validator, $response);
+    }
+}

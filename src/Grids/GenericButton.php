@@ -200,6 +200,10 @@ class GenericButton implements Htmlable
         // check if modal is needed, and adjust the class attribute
         $this->showModal ? $this->__set('class', $this->class.' show_modal_form') : false;
 
+        if (!empty($this->size) && !str_contains($this->class, "btn-{$this->size}")) {
+            $this->__set('class', $this->class.' btn-'.$this->size);
+        }
+
         // can render
         if (!is_callable($this->visible)) {
             $this->visible = function () {

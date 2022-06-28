@@ -21,18 +21,18 @@ interface BaseControllerInterface
      * @param $id
      * @return mixed
      */
-    public function view($id);
+    public function view(Request $request, $id);
 
     /**
      * @return mixed
      */
-    public function index();
+    public function index(Request $request);
 
     /**
      * @param Request $request
      * @return mixed
      */
-    public function create();
+    public function create(Request $request);
 
     /**
      * @param Request $request
@@ -44,13 +44,13 @@ interface BaseControllerInterface
      * @param Request $request
      * @return mixed
      */
-    public function edit(int $id);
+    public function edit(Request $request, int $id);
 
     /**
      * @param int $id
      * @return mixed
      */
-    public function show(int $id);
+    public function show(Request $request, int $id);
 
     /**
      * @param Request $request
@@ -63,5 +63,5 @@ interface BaseControllerInterface
      * @param int $id
      * @return mixed
      */
-    public function destroy(int $id);
+    public function destroy(Request $request, int $id);
 }

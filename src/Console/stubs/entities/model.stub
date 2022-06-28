@@ -1,0 +1,12 @@
+<?php
+
+namespace $MODULE_NAMESPACE$\Entities$SUBFOLDER$;
+
+use Laka\Core\Entities\BaseModel;
+
+class $CLASSNAME$Model extends BaseModel
+{
+    protected $table = '$LOWER_NAME$';
+
+    protected $fillable = $FILLABLE$;
+}

@@ -201,11 +201,26 @@ abstract class BaseRepository implements RepositoryInterface
         $columns = $this->getColumns($columns);
 
         $limit = is_null($limit) ? $this->getLimitForPagination() : $limit;
-        $results = $this->model->{$method}($limit, $columns);
-        $results->appends(request()->except($this->except));
+        $results = $this->paginateData(null, $method, $limit, $columns);
         $this->resetQuery();
 
         return $this->parserResult($results);
+    }
+
+    /**
+     * @param $data
+     * @param string $method
+     * @param int $limit
+     * @param array $columns
+     */
+    protected function paginateData($data = null, string $method = "paginate", int $limit = null, array $columns = [])
+    {
+        if (str_is($method, 'paginate'))
+            $results = $this->model->{$method}($limit, $columns);
+        else
+            $results = $this->model->{$method}($data, $limit, $columns);
+        $results->appends(request()->except($this->except));
+        return $results;
     }
 
     /**

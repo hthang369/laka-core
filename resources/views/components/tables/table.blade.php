@@ -22,7 +22,6 @@ $prefix = config('laka-core.prefix');
                 @php
                     $field = new Laka\Core\Grids\DataColumn;
                     $field->tdAttr = ['colspan' => count($fields)];
-                    $prefix = config('laka-core.prefix');
                 @endphp
                 <x-table-row>
                     <x-table-column :field="$field">

@@ -1,0 +1,10 @@
+<?php
+
+namespace $MODULE_NAMESPACE$\Responses$SUBFOLDER$;
+
+use Laka\Core\Responses\BaseResponse;
+
+class $CLASSNAME$Response extends BaseResponse
+{
+
+}

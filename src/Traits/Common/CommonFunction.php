@@ -11,4 +11,15 @@ trait CommonFunction
         $routeName = explode('.', Request::route()->getName());
         return trim(head($routeName));
     }
+
+    public function getCurrentModuleName()
+    {
+        $arr = explode(DIRECTORY_SEPARATOR, get_called_class());
+        return strtolower(data_get($arr, 1));
+    }
+
+    public function getLayoutModuleName()
+    {
+        return $this->layoutModuleName ?? $this->getCurrentModuleName();
+    }
 }

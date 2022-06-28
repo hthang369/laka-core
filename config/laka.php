@@ -15,5 +15,28 @@ return [
     ],
     'table' => [
         'sticky_header' => false
+    ],
+    'views' => [
+        'index'     => '%s.list',
+        'create'    => '%s.create',
+        'edit'      => '%s.update',
+        'show'      => '%s.detail'
+    ],
+    'routes' => [
+        'success' => [
+            'store'     => '%s.index',
+            'update'    => '%s.index'
+        ],
+        'errors' => [
+            'store'     => '%s.create',
+            'update'    => '%s.edit'
+        ]
+    ],
+    'buttonConfigs' => [
+        'create' => ['showModal' => true, 'pjaxEnabled' => true],
+        'edit' => ['showModal' => true, 'pjaxEnabled' => true],
+        'show' => ['showModal' => true, 'pjaxEnabled' => true],
+        'destroy' => ['pjaxEnabled' => true],
+        'refresh' => ['pjaxEnabled' => true]
     ]
 ];

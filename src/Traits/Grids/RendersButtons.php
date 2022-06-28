@@ -40,17 +40,34 @@ trait RendersButtons
     {
         $this->buttons = [
             // toolbar buttons
-            GenericButton::TYPE_TOOLBAR => [
-                'create' => $this->getCreateButton(),
-                'refresh' => $this->getRefreshButton()
-            ],
+            GenericButton::TYPE_TOOLBAR => $this->initToolbarButtons(),
             // row buttons
-            GenericButton::TYPE_ROW => [
-                'edit' => $this->getEditButton(),
-                'detail' => $this->getDetailButton(),
-                'delete' => $this->getDeleteButton()
-            ]
+            GenericButton::TYPE_ROW => $this->initRowButtons()
         ];
+    }
+
+    protected function initToolbarButtons()
+    {
+        return $this->orderByButtons([
+            'create' => $this->getCreateButton(),
+            'refresh' => $this->getRefreshButton()
+        ]);
+    }
+
+    protected function initRowButtons()
+    {
+        return $this->orderByButtons([
+            'edit' => $this->getEditButton(),
+            'detail' => $this->getDetailButton(),
+            'delete' => $this->getDeleteButton()
+        ]);
+    }
+
+    protected function orderByButtons($data)
+    {
+        return collect($data)->sortBy(function($item) {
+            return $item->position;
+        })->toArray();
     }
 
     public function getButton($key, $type = GenericButton::TYPE_TOOLBAR)
@@ -62,7 +79,7 @@ trait RendersButtons
     {
         $btns = data_get($this->buttons, $type, $this->buttons);
 
-        return collect($btns)->sortBy('position')->toArray();
+        return $this->orderByButtons($btns);
     }
 
     public function hasButton($key, $type = GenericButton::TYPE_TOOLBAR)
@@ -70,15 +87,27 @@ trait RendersButtons
         return !is_null($this->getButton($key, $type));
     }
 
+    protected function buttonConfigure($name)
+    {
+        return config("laka.buttonConfigs.{$name}");
+    }
+
+    protected function mergeConfigureButton($config)
+    {
+        $name = $config['key'];
+        $opts = config("laka.buttonConfigs.{$name}.pjaxEnabled") ? ['gridId' => $this->getId()] : [];
+        return array_merge($config, $this->buttonConfigure($name), $opts);
+    }
+
     protected function configureCreateButton()
     {
-        return [
+        return $this->mergeConfigureButton([
             'key' => 'create',
             'name' => 'create',
             'title' => translate('table.btn_create'),
             'label' => translate('table.btn_create'),
             'variant' => 'success',
-            'class' => 'show_modal_form',
+            // 'class' => 'show_modal_form',
             'size' => '',
             'position' => 1,
             'url' => function($item) {
@@ -91,12 +120,12 @@ trait RendersButtons
             'visible' => function($item) {
                 return $this->visibleCreate();
             }
-        ];
+        ]);
     }
 
     protected function configureRefreshButton()
     {
-        return [
+        return $this->mergeConfigureButton([
             'key' => 'refresh',
             'name' => 'refresh',
             'title' => translate('table.btn_refresh'),
@@ -116,20 +145,20 @@ trait RendersButtons
             'visible' => function($item) {
                 return $this->visibleRefresh();
             }
-        ];
+        ]);
     }
 
     protected function configureEditButton()
     {
         $prefix = $this->getConfigPrefix();
-        return [
+        return $this->mergeConfigureButton([
             'key' => 'edit',
             'name' => 'edit',
             'variant' => 'primary',
             'position' => 1,
-            'icon' => 'fa fa-edit',
+            'icon' => 'fa-edit',
             'title' => translate('table.btn_edit'),
-            'renderCustom' => "{$prefix}::tables.buttons.action_edit",
+            // 'renderCustom' => "{$prefix}::tables.buttons.action_edit",
             'url' => function($item) {
                 return $this->getEditUrl(data_get($item, 'id'));
             },
@@ -140,20 +169,20 @@ trait RendersButtons
             'visible' => function($item) {
                 return $this->visibleEdit($item);
             }
-        ];
+        ]);
     }
 
     protected function configureDetailButton()
     {
         $prefix = $this->getConfigPrefix();
-        return [
+        return $this->mergeConfigureButton([
             'key' => 'show',
             'name' => 'show',
             'variant' => 'info',
             'position' => 2,
-            'icon' => 'fa fa-info-circle',
+            'icon' => 'fa-info-circle',
             'title' => translate('table.btn_detail'),
-            'renderCustom' => "{$prefix}::tables.buttons.action_show",
+            // 'renderCustom' => "{$prefix}::tables.buttons.action_show",
             'url' => function($item) {
                 return $this->getDetailUrl(data_get($item, 'id'));
             },
@@ -164,18 +193,18 @@ trait RendersButtons
             'visible' => function($item) {
                 return $this->visibleDetail($item);
             }
-        ];
+        ]);
     }
 
     protected function configureDeleteButton()
     {
         $prefix = $this->getConfigPrefix();
-        return [
+        return $this->mergeConfigureButton([
             'key' => 'destroy',
             'name' => 'destroy',
             'variant' => 'danger',
             'position' => 3,
-            'icon' => 'fa fa-trash',
+            'icon' => 'fa-trash',
             'class' => 'data-remote',
             'title' => translate('table.btn_delete'),
             // 'renderCustom' => "{$prefix}::tables.buttons.action_destroy",
@@ -193,7 +222,7 @@ trait RendersButtons
             'visible' => function($item) {
                 return $this->visibleDelete($item);
             }
-        ];
+        ]);
     }
 
     protected function visibleCreate()
@@ -223,23 +252,31 @@ trait RendersButtons
 
     protected function getCreareUrl()
     {
-        return route($this->getSectionCode().'.create', ['ref' => $this->getId()]);
+        return route($this->getSectionCode().'.create', $this->genarateParams('create'));
     }
     protected function getRefreshUrl()
     {
-        return route($this->getSectionCode().'.index');
+        return route(get_route_name());
     }
     protected function getEditUrl($params)
     {
-        return $params ? route($this->getSectionCode().'.edit', $params) : '';
+        return $params ? route($this->getSectionCode().'.edit', $this->genarateParams('edit', $params)) : '';
     }
     protected function getDetailUrl($params)
     {
-        return $params ? route($this->getSectionCode().'.show', $params) : '';
+        return $params ? route($this->getSectionCode().'.show', $this->genarateParams('show', $params)) : '';
     }
     protected function getDeleteUrl($params)
     {
-        return $params ? route($this->getSectionCode().'.destroy', $params) : '';
+        return $params ? route($this->getSectionCode().'.destroy', $this->genarateParams('destroy', $params)) : '';
+    }
+
+    protected function genarateParams($name, $params = [])
+    {
+        if (config("laka.buttonConfigs.{$name}.pjaxEnabled")) {
+            $params = array_merge(array_wrap($params), ['ref' => $this->getId()]);
+        }
+        return $params;
     }
 
     private function getCreateButton()

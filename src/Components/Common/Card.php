@@ -11,7 +11,7 @@ class Card extends Component
     public $header;
     public $footer;
     public $noBody;
-    public $bodyAttr;
+    public $bodyClass;
     public $attrs;
     public $prefix;
     public $imgSrc;
@@ -46,7 +46,7 @@ class Card extends Component
         $this->imgSrc = $imgSrc;
         $this->imgTop = $imgTop;
         $this->imgBottom = $imgBottom;
-        $this->bodyAttr = ['class' => Classes::get(['card-body', $bodyClass])];
+        $this->bodyClass = $bodyClass;
         $this->attrs = ['class' => Classes::get(['card', $class])];
     }
 }

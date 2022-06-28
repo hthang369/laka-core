@@ -15,13 +15,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
+use Laka\Core\Responses\BaseResponse;
 use Laka\Core\Traits\Auth\Authorizable;
+use Laka\Core\Traits\Common\ResponseTrait;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 abstract class BaseController extends Controller implements BaseControllerInterface
 {
-    use Authorizable, AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use Authorizable, AuthorizesRequests, DispatchesJobs, ValidatesRequests, ResponseTrait;
     /**
      * @var BaseRepository
      */
@@ -31,6 +33,11 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @var BaseValidator
      */
     protected $validator;
+
+    /**
+     * @var BaseResponse
+     */
+    protected $response;
 
     /**
      * @var Factory
@@ -61,9 +68,10 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      *
      * @param BaseValidator $validator
      */
-    public function __construct(BaseRepository $repository, BaseValidator $validator) {
+    public function __construct(BaseRepository $repository, BaseValidator $validator, BaseResponse $response) {
         $this->repository = $repository;
         $this->validator = $validator;
+        $this->response = $response;
         $this->factory = new Factory($this);
         $this->setControllerActionPermission($this->permissionActions);
         $this->setViewName($this->listViewName);
@@ -76,19 +84,12 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @return Response|mixed
      * @throws Exception
      */
-    public function view($id = null) {
-        if ($id) {
-            return $this->show($id);
-        }
-        return $this->index();
-    }
-
-    protected function getData($data = null)
+    public function view(Request $request, $id = null)
     {
-        $presenterGrid = method_exists($this->repository, 'getPresenterGrid') ? $this->repository->getPresenterGrid() : null;
-        array_push($this->data, $presenterGrid, $data);
-        list($grid, $result) = $this->data;
-        return compact('grid', 'result');
+        if ($id) {
+            return $this->show($request, $id);
+        }
+        return $this->index($request);
     }
 
     /**
@@ -97,10 +98,11 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @return Response|mixed
      * @throws Exception
      */
-    public function index() {
+    public function index(Request $request)
+    {
         $list = $this->repository->paginate();
 
-        return WebResponse::success($this->getViewName(__FUNCTION__), $this->getData($list), $this->getMessageResponse(__FUNCTION__));
+        return $this->responseView($request, $list, $this->getViewName(__FUNCTION__), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -110,8 +112,9 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @return Response|mixed
      * @throws Exception
      */
-    public function create() {
-        return WebResponse::success($this->getViewName(__FUNCTION__), $this->getData(), $this->getMessageResponse(__FUNCTION__));
+    public function create(Request $request)
+    {
+        return $this->responseView($request, null, $this->getViewName(__FUNCTION__), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -121,10 +124,11 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @return Response|mixed
      * @throws Exception
      */
-    public function edit($id) {
+    public function edit(Request $request, $id)
+    {
         $data = $this->repository->show($id);
 
-        return WebResponse::success($this->getViewName(__FUNCTION__), $this->getData($data), $this->getMessageResponse(__FUNCTION__));
+        return $this->responseView($request, $data, $this->getViewName(__FUNCTION__), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -134,7 +138,8 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @return Response|mixed
      * @throws ValidatorException
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $this->validator($request->all(), ValidatorInterface::RULE_CREATE);
 
         $data = $this->repository->create($request->all());
@@ -143,7 +148,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
             $data = $data->toArray();
         }
 
-        return WebResponse::created($this->getRouteName(__FUNCTION__), $data, $this->getMessageResponse(__FUNCTION__));
+        return $this->responseAction($request, $data, 'created', $this->getRouteName(__FUNCTION__), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -153,10 +158,11 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @return Response|mixed
      * @throws Exception
      */
-    public function show($id) {
+    public function show(Request $request, $id)
+    {
         $data = $this->repository->show($id);
 
-        return WebResponse::success($this->getViewName(__FUNCTION__), $this->getData($data), $this->getMessageResponse(__FUNCTION__));
+        return $this->responseView($request, $data, $this->getViewName(__FUNCTION__), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -167,7 +173,8 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @return Response|mixed
      * @throws ValidatorException
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $this->validator->setId($id);
         $this->validator($request->all(), ValidatorInterface::RULE_UPDATE);
 
@@ -177,7 +184,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
             $data = $data->toArray();
         }
 
-        return WebResponse::updated($this->getRouteName(__FUNCTION__, $id), $data, $this->getMessageResponse(__FUNCTION__));
+        return $this->responseAction($request, $data, 'updated', $this->getRouteName(__FUNCTION__, $id), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -186,10 +193,11 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @param $id
      * @return Response|mixed
      */
-    public function destroy($id) {
+    public function destroy(Request $request, $id)
+    {
         $this->repository->delete($id);
 
-        return WebResponse::deleted($this->getRouteName(__FUNCTION__, $id), $this->getMessageResponse(__FUNCTION__));
+        return $this->responseAction($request, null, 'deleted', $this->getRouteName(__FUNCTION__, $id), $this->getMessageResponse(__FUNCTION__));
     }
 
     /**
@@ -198,39 +206,8 @@ abstract class BaseController extends Controller implements BaseControllerInterf
      * @return mixed|void
      * @throws ValidatorException
      */
-    public function validator($data, $rules) {
+    public function validator($data, $rules)
+    {
         $this->validator->with($data)->passesOrFail($rules);
-    }
-
-    protected function getViewName($key)
-    {
-        return data_get($this->listDefaultViewName, $key, $this->defaultName.'.'.$key);
-    }
-
-    protected function getMessageResponse($key)
-    {
-        return data_get($this->messageResponse, $key, null);
-    }
-
-    /**
-     * @param $class
-     * @param $alias
-     */
-    public function setProperty($class, $alias) {
-        $this->$alias = $class;
-    }
-
-    protected function setViewName($listViewName)
-    {
-        $this->listDefaultViewName = array_merge($this->listDefaultViewName, $listViewName);
-    }
-
-    protected function getRouteName($key, $params = [])
-    {
-        $routeName = $this->getViewName($key);
-        if (count(Route::getRoutes()->getByName($routeName)->parameterNames()) == 0) {
-            $params = [];
-        }
-        return route($routeName, $params);
     }
 }

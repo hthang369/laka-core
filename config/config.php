@@ -9,6 +9,7 @@ use Laka\Core\Components\Common\Badge;
 use Laka\Core\Components\Common\Breadcrumb;
 use Laka\Core\Components\Common\Button;
 use Laka\Core\Components\Common\Card;
+use Laka\Core\Components\Common\CardBody;
 use Laka\Core\Components\Common\CardFooter;
 use Laka\Core\Components\Common\CardGroup;
 use Laka\Core\Components\Common\CardHeader;
@@ -126,6 +127,10 @@ return [
         'card-header' => [
             'view'  => 'components.common.card-header',
             'class' => CardHeader::class
+        ],
+        'card-body' => [
+            'view'  => 'components.common.card-body',
+            'class' => CardBody::class
         ],
         'card-title' => [
             'view'  => 'components.common.card-title',

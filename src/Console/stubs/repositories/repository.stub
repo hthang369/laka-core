@@ -1,0 +1,14 @@
+<?php
+
+namespace $MODULE_NAMESPACE$\Repositories$SUBFOLDER$;
+
+use $MODULE_NAMESPACE$\Entities$SUBFOLDER$\$CLASSNAME$Model;
+use $MODULE_NAMESPACE$\Grids$SUBFOLDER$\$CLASSNAME$Grid;
+use Laka\Core\Repositories\CoreRepository;
+
+class $CLASSNAME$Repository extends CoreRepository
+{
+    protected $presenterClass = $CLASSNAME$Grid::class;
+
+    protected $modelClass = $CLASSNAME$Model::class;
+}

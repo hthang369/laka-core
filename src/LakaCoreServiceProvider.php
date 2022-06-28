@@ -4,15 +4,33 @@ namespace Laka\Core;
 
 use Collective\Html\FormFacade as Form;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
 use Laka\Core\Facades\Common;
 use Laka\Core\Support\CommonSupport;
+use Laka\Core\Support\ModalHelper;
 
-class LakaCoreServiceProvider extends ServiceProvider
+class LakaCoreServiceProvider extends BaseServiceProvider
 {
-    private $initFacades = [
-        'common-support' => CommonSupport::class
+    protected $facades = [
+        'common-support' => CommonSupport::class,
+        'modal'  => ModalHelper::class
     ];
+
+    protected $loadConfigs = [
+        'laka-core'     => 'config.php',
+        'laka'          => 'laka.php',
+        'permission'    => 'permission.php',
+        'modules'       => 'modules.php',
+        'form-builder' => 'form-builder.php',
+    ];
+
+    protected $publishConfigs = [
+        // 'laka'          => 'laka.php',
+        'form-builder' => 'form-builder.php',
+    ];
+
+    protected $moduleNamespace = 'Laka\\Core\\';
+    protected $modulePath = __DIR__;
+    protected $commandPath = __DIR__.DIRECTORY_SEPARATOR.'Console';
 
     private function getPrefix()
     {
@@ -27,34 +45,26 @@ class LakaCoreServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', $prefix);
 
-        $this->registerFacades();
-
         $this->registerBladeComponents();
 
         $this->registerFormComponents();
 
         $this->loadHelperFile();
 
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/../../config/laka.php' => config_path('laka.php'),
-            ], 'config');
+        $this->registerCommands();
 
-            $this->publishes([
-                __DIR__.'/../resources/views/components/grids/header-info.blade.php' => resource_path("views/vendor/{$prefix}/components/grids/header-info.blade.php"),
-            ], ['laka-views']);
+        if ($this->app->runningInConsole()) {
+            $this->publishConfigs();
+
+            // $this->publishes([
+            //     __DIR__.'/../resources/views/components/grids/header-info.blade.php' => resource_path("views/vendor/{$prefix}/components/grids/header-info.blade.php"),
+            // ], ['laka-views']);
         }
     }
 
     private function loadHelperFile()
     {
         require_once(__DIR__.'/helpers.php');
-    }
-
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'laka-core');
-        $this->mergeConfigFrom(__DIR__ . '/../config/laka.php', 'laka');
     }
 
     protected function registerBladeComponents()
@@ -83,14 +93,5 @@ class LakaCoreServiceProvider extends ServiceProvider
             Common::removeProtectedProperty(app('form'), 'skipValueTypes', $type);
             return $html;
         });
-    }
-
-    protected function registerFacades()
-    {
-        foreach($this->initFacades as $key => $class) {
-            $this->app->singleton($key, function () use($class) {
-                return new $class();
-            });
-        }
     }
 }

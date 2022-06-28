@@ -5,11 +5,12 @@ namespace Laka\Core\Grids;
 use Illuminate\Contracts\Support\Htmlable;
 use Laka\Core\Helpers\Classes;
 use Laka\Core\Presenters\BaseDataGridPresenter;
+use Laka\Core\Traits\Grids\ConfiguresGrid;
 use Laka\Core\Traits\Grids\RendersGrid;
 
 abstract class BaseGridPresenter extends BaseDataGridPresenter implements Htmlable
 {
-    use RendersGrid;
+    use RendersGrid, ConfiguresGrid;
 
     private $indexName = 'index';
 

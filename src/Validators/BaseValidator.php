@@ -53,7 +53,12 @@ abstract class BaseValidator extends LaravelValidator
         });
     }
 
-    protected function configRule(&$rules)
+    protected function configRule(&$rule)
     {
+    }
+
+    public function loadInitRule($action, $rules)
+    {
+        data_set($this->rules, $action, $rules);
     }
 }

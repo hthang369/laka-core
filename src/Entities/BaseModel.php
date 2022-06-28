@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Laka\Core\Traits\Entities\FullTextSearch;
+use Laka\Core\Traits\Entities\ListenerModelTrait;
 
 class BaseModel extends Model
 {
-    use FullTextSearch;
+    use FullTextSearch, ListenerModelTrait;
 
     const CREATED_USER = 'created_user_id';
     const UPDATED_USER = 'updated_user_id';
