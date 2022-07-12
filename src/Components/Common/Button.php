@@ -5,6 +5,9 @@ namespace Laka\Core\Components\Common;
 use Illuminate\Support\Arr;
 use Laka\Core\Components\Component;
 
+/**
+ * Use Bootstrap <x-button> component for actions in forms, dialogs, and more. Includes support for a handful of contextual variations, sizes, states, and more
+ */
 class Button extends Component
 {
     public $text;
@@ -20,6 +23,13 @@ class Button extends Component
      */
     public $componentName = 'button';
 
+    /**
+     * @param string $variant
+     * @param string $type
+     * @param string $text
+     * @param string $size
+     * @param string $icon
+     */
     public function __construct(
         $variant = 'secondary',
         $type = 'button',

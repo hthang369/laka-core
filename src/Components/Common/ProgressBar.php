@@ -17,6 +17,17 @@ class ProgressBar extends Component
      */
     public $componentName = 'progress-bar';
 
+    /**
+     * @param int $max
+     * @param int $precision
+     * @param string $class
+     * @param bool $animated
+     * @param bool $striped
+     * @param string $variant
+     * @param int $value
+     * @param bool $showProgress
+     * @param bool $showValue
+     */
     public function __construct(
         $max = 100,
         $precision = 0,

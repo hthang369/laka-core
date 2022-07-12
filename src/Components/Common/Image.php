@@ -7,6 +7,9 @@ use Jenssegers\Agent\Agent;
 use Intervention\Image\ImageManagerStatic as Resize;
 use Laka\Core\Components\Component;
 
+/**
+ * Create responsive images, optionally adding lightweight styles to them — all via props. Support for rounded images, thumbnail styling, alignment, and even the ability to create blank images with an optional solid background color, and lazy loaded images.
+ */
 class Image extends Component
 {
     public $width;
@@ -23,6 +26,16 @@ class Image extends Component
      */
     public $componentName = 'image';
 
+    /**
+     * @param array $width
+     * @param array $height
+     * @param string $fit
+     * @param string $src
+     * @param string $alt
+     * @param string $id
+     * @param bool $lazyload
+     * @param string $class
+     */
     public function __construct(
         $width = [],
         $height = [],

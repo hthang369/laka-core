@@ -15,6 +15,12 @@ class CardGroup extends Component
      */
     public $componentName = 'card-group';
 
+    /**
+     * @param string $cols
+     * @param string $layout
+     * @param string $size
+     * @param string $sizeCols
+     */
     public function __construct(
         $cols = '1',
         $layout = '',

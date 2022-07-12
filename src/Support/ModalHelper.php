@@ -16,4 +16,9 @@ class ModalHelper
         $view = $viewName ?? laka_component('modal.modal-buttons');
         return view(Common::getViewName('modal.modal-end'), compact('view', 'data'))->render();
     }
+
+    public function containerView()
+    {
+        return Common::getViewName('modal.container');
+    }
 }

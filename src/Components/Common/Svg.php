@@ -12,6 +12,12 @@ class Svg extends Component
     public $width;
     public $height;
 
+    /**
+     * @param string $path
+     * @param array $width
+     * @param array $height
+     * @param string $class
+     */
     public function __construct(
         $path = '',
         $width = [],

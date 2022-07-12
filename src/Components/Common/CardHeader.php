@@ -16,6 +16,10 @@ class CardHeader extends Component
      */
     public $componentName = 'card-header';
 
+    /**
+     * @param string $text
+     * @param string $tag
+     */
     public function __construct(
         $text = '',
         $tag = 'h4'

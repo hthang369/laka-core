@@ -16,6 +16,10 @@ class CardText extends Component
      */
     public $componentName = 'card-text';
 
+    /**
+     * @param string $text
+     * @param string $tag
+     */
     public function __construct(
         $text = '',
         $tag = 'div'

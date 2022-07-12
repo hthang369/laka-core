@@ -5,6 +5,9 @@ namespace Laka\Core\Components\Common;
 use Laka\Core\Components\Component;
 use Laka\Core\Helpers\Classes;
 
+/**
+ * Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.
+ */
 class Alert extends Component
 {
     public $type;
@@ -19,8 +22,14 @@ class Alert extends Component
      */
     public $componentName = 'alert';
 
+    /**
+     * @param string $type  Applies one of the Bootstrap theme color variants to the component
+     * @param string $message  Show message alert to the component
+     * @param string $class  Applies class name to the component
+     * @param bool $dismissible  When set, enables the dismiss close button
+     */
     public function __construct(
-        $type = '',
+        $type = 'info',
         $message = '',
         $class = '',
         $dismissible = false

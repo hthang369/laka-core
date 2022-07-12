@@ -25,6 +25,7 @@ class CheckableGroupType extends FormField
             'attr' => ['class' => 'custom-control-label'],
             'for' => $this->name
         ]);
+        data_set($options, 'attr.wrapper', ['d-flex', 'align-items-center']);
         data_set($options, 'attr.id', $this->name);
         $optCtrlAttr = array_wrap(array_pull($options, 'control'));
         $defaultCtrlAttr = ['class' => ['custom-control', "custom-{$type}"]];

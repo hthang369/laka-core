@@ -60,4 +60,14 @@ abstract class BaseGridPresenter extends BaseDataGridPresenter implements Htmlab
     {
         return user_can("delete_{$this->getSectionCode()}");
     }
+
+    protected function visibleCreate()
+    {
+        return user_can("add_{$this->getSectionCode()}");
+    }
+
+    protected function visibleRefresh()
+    {
+        return user_can("view_{$this->getSectionCode()}");
+    }
 }

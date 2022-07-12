@@ -5,6 +5,9 @@ namespace Laka\Core\Components\Common;
 use Laka\Core\Components\Component;
 use Laka\Core\Helpers\Classes;
 
+/**
+ *
+ */
 class Embed extends Component
 {
     public $src;
@@ -12,6 +15,12 @@ class Embed extends Component
     public $options;
     public $attrs;
 
+    /**
+     * @param string $src
+     * @param string $options
+     * @param string $format
+     * @param string $class
+     */
     public function __construct(
         $src = '',
         $options = '',

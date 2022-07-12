@@ -143,6 +143,7 @@ abstract class CoreRepository extends BaseRepository
             'route' => $route,
             'action' => $actionName,
             'pjaxContainer' => request()->get('ref'),
+            'title' => ucwords($actionName).' '.class_basename($this->model)
         ];
 
         $modal = array_merge($modal, $config);

@@ -5,6 +5,9 @@ namespace Laka\Core\Components\Common;
 use Laka\Core\Components\Component;
 use Laka\Core\Helpers\Classes;
 
+/**
+ * Use Bootstrap custom <x-link> component for generating a standard <a> link. <x-link> supports the disabled state and click event propagation.
+ */
 class Link extends Component
 {
     public $text;
@@ -12,6 +15,15 @@ class Link extends Component
     public $attrs;
     public $collapse;
 
+    /**
+     * @param string $href
+     * @param string $title
+     * @param int $trim
+     * @param string $text
+     * @param array $collapse
+     * @param string $target
+     * @param string $class
+     */
     public function __construct(
         $href = '',
         $title = '',

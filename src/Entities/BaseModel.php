@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Laka\Core\Traits\Entities\FullTextSearch;
 use Laka\Core\Traits\Entities\ListenerModelTrait;
+use Laka\Core\Traits\Entities\SearchableTrait;
 
 class BaseModel extends Model
 {
-    use FullTextSearch, ListenerModelTrait;
+    use FullTextSearch, ListenerModelTrait, SearchableTrait;
 
     const CREATED_USER = 'created_user_id';
     const UPDATED_USER = 'updated_user_id';
@@ -49,11 +50,6 @@ class BaseModel extends Model
     public static function getUpdatedUser()
     {
         return static::UPDATED_USER;
-    }
-
-    public function getFillableColumns()
-    {
-        return $this->fillableColumns;
     }
 
     public function setAttributeValue($key, $value)

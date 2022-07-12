@@ -13,7 +13,8 @@ trait ResponseTrait
 
     protected function getMessageResponse($key)
     {
-        return data_get($this->messageResponse, $key, null);
+        $keyMessage = data_get($this->messageResponse, $key, null);
+        return $keyMessage ? trans($keyMessage) : null;
     }
 
     /**
@@ -32,8 +33,10 @@ trait ResponseTrait
 
     protected function getRouteName($key, $params = [])
     {
+        if (request()->wantsJson()) return '';
         $routeName = $this->getViewName($key);
-        if (count(Route::getRoutes()->getByName($routeName)->parameterNames()) == 0) {
+        $route = Route::getRoutes()->getByName($routeName);
+        if (is_null($route) || count($route->parameterNames()) == 0) {
             $params = [];
         }
         return route($routeName, $params);

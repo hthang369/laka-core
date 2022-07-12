@@ -12,6 +12,11 @@ class StripeNav extends Component
     public $slot1;
     public $slot2;
 
+    /**
+     * @param array $all
+     * @param array $links
+     * @param string $class
+     */
     public function __construct(
         $all = [],
         $links = [],

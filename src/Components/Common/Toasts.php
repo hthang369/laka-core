@@ -5,6 +5,9 @@ namespace Laka\Core\Components\Common;
 use Laka\Core\Components\Component;
 use Laka\Core\Helpers\Classes;
 
+/**
+ * Push notifications to your visitors with a toast, a lightweight and easily customizable alert message.
+ */
 class Toasts extends Component
 {
     public $type;
@@ -21,6 +24,15 @@ class Toasts extends Component
      */
     public $componentName = 'alert';
 
+    /**
+     * @param string $type
+     * @param string $title
+     * @param string $message
+     * @param string $class
+     * @param string $variant
+     * @param bool $dismissible
+     * @param int $delay
+     */
     public function __construct(
         $type = '',
         $title = '',

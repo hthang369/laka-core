@@ -37,8 +37,10 @@ abstract class CoreController extends BaseController
 
     protected function initViewName()
     {
-        $this->routeName = $this->getSectionCode();
+        if (!$this->routeName)
+            $this->routeName = $this->getSectionCode();
         $listViewName = $this->loadConfig(config('laka.views'), $this->defaultName);
+        $listViewName = $this->loadTemplateViewsConfig($listViewName);
         $listRouteName = $this->loadConfig(config('laka.routes.success'), $this->routeName, false);
         $listRouteErrorName = $this->loadConfig(config('laka.routes.errors'), $this->routeName, false);
         $this->listViewName += $listViewName + $listRouteName;
@@ -121,6 +123,18 @@ abstract class CoreController extends BaseController
             $item = sprintf($item, $prefix);
         }, $prefix);
 
+        return $data;
+    }
+
+    private function loadTemplateViewsConfig(&$data)
+    {
+        $temps = config('laka.views_temp');
+        array_walk($data, function(&$view, $key) use($temps) {
+            if (!View::exists($view)) {
+                $view = data_get($temps, $key, $view);
+            }
+            return $view;
+        });
         return $data;
     }
 }

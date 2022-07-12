@@ -33,7 +33,9 @@ class BaseBuilder extends Builder
                         : $newData;
 
         if (count($columns) > 0 && !in_array('*', $columns)) {
-            $results = $results->only($columns);
+            $results->transform(function($item) use($columns) {
+                return array_only($item, $columns);
+            });
         }
 
         return $this->paginator($results, $total, $perPage, $page, [

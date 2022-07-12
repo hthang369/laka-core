@@ -5,14 +5,19 @@ namespace Laka\Core;
 use Collective\Html\FormFacade as Form;
 use Illuminate\Support\Facades\Blade;
 use Laka\Core\Facades\Common;
+use Laka\Core\Plugins\Nestedset\NestedSetServiceProvider;
+use Laka\Core\Support\BreadcrumbSupport;
 use Laka\Core\Support\CommonSupport;
 use Laka\Core\Support\ModalHelper;
+use Laka\Core\Support\PhpDocCommentSupport;
 
 class LakaCoreServiceProvider extends BaseServiceProvider
 {
     protected $facades = [
         'common-support' => CommonSupport::class,
-        'modal'  => ModalHelper::class
+        'modal'  => ModalHelper::class,
+        'breadcrumb-support' => BreadcrumbSupport::class,
+        'phpdoc-comment' => PhpDocCommentSupport::class
     ];
 
     protected $loadConfigs = [
@@ -60,6 +65,12 @@ class LakaCoreServiceProvider extends BaseServiceProvider
             //     __DIR__.'/../resources/views/components/grids/header-info.blade.php' => resource_path("views/vendor/{$prefix}/components/grids/header-info.blade.php"),
             // ], ['laka-views']);
         }
+    }
+
+    public function register()
+    {
+        $this->app->register(NestedSetServiceProvider::class);
+        parent::register();
     }
 
     private function loadHelperFile()

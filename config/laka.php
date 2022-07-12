@@ -22,6 +22,12 @@ return [
         'edit'      => '%s.update',
         'show'      => '%s.detail'
     ],
+    'views_temp' => [
+        'index'     => '',
+        'create'    => '',
+        'edit'      => '',
+        'show'      => ''
+    ],
     'routes' => [
         'success' => [
             'store'     => '%s.index',

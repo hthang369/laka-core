@@ -9,12 +9,12 @@ class NestedSet
     /**
      * The name of default lft column.
      */
-    const LFT = '_lft';
+    const LFT = 'left';
 
     /**
      * The name of default rgt column.
      */
-    const RGT = '_rgt';
+    const RGT = 'right';
 
     /**
      * The name of default parent id column.
@@ -36,13 +36,19 @@ class NestedSet
      *
      * @param \Illuminate\Database\Schema\Blueprint $table
      */
-    public static function columns(Blueprint $table)
+    public static function columns(Blueprint $table, $options = [])
     {
-        $table->unsignedInteger(self::LFT)->default(0);
-        $table->unsignedInteger(self::RGT)->default(0);
-        $table->unsignedInteger(self::PARENT_ID)->nullable();
+        list($parent, $left, $right) = $defaultColumns = static::getDefaultColumns($options);
+        $parentColumn = $table->unsignedInteger($parent)->nullable();
+        $leftColumn = $table->unsignedInteger($left)->default(0);
+        $rightColumn =  $table->unsignedInteger($right)->default(0);
+        if (array_has($options, 'after')) {
+            $parentColumn->after($options['after']);
+            $leftColumn->after($parentColumn->name);
+            $rightColumn->after($leftColumn->name);
+        }
 
-        $table->index(static::getDefaultColumns());
+        $table->index($defaultColumns);
     }
 
     /**
@@ -50,9 +56,9 @@ class NestedSet
      *
      * @param \Illuminate\Database\Schema\Blueprint $table
      */
-    public static function dropColumns(Blueprint $table)
+    public static function dropColumns(Blueprint $table, $options = [])
     {
-        $columns = static::getDefaultColumns();
+        $columns = static::getDefaultColumns($options);
 
         $table->dropIndex($columns);
         $table->dropColumn($columns);
@@ -63,9 +69,13 @@ class NestedSet
      *
      * @return array
      */
-    public static function getDefaultColumns()
+    public static function getDefaultColumns($options = [])
     {
-        return [ static::LFT, static::RGT, static::PARENT_ID ];
+        return [
+            data_get($options, self::PARENT_ID, self::PARENT_ID),
+            data_get($options, self::LFT, self::LFT),
+            data_get($options, self::RGT, self::RGT)
+        ];
     }
 
     /**

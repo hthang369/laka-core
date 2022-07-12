@@ -5,6 +5,9 @@ namespace Laka\Core\Components\Common;
 use Laka\Core\Components\Component;
 use Laka\Core\Helpers\Classes;
 
+/**
+ * A custom progress component for displaying simple or complex progress bars, featuring support for horizontally stacked bars, animated backgrounds, and text labels.
+ */
 class Progress extends Component
 {
     public $max;
@@ -24,6 +27,18 @@ class Progress extends Component
      */
     public $componentName = 'progress';
 
+    /**
+     * @param string $max
+     * @param bool $showProgress
+     * @param bool $showValue
+     * @param string $class
+     * @param bool $animated
+     * @param bool $striped
+     * @param string $variant
+     * @param string $height
+     * @param int $value
+     * @param int $precision
+     */
     public function __construct(
         $max = '',
         $showProgress = false,

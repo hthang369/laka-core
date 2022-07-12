@@ -23,7 +23,7 @@ class QueryLogger
         // Insert bindings into query
         $boundSql = str_replace(['%', '?'], ['%%', '%s'], $query->sql);
         $boundSql = vsprintf($boundSql, $query->bindings);
-        echo $boundSql;
+        // dump($boundSql);
         Log::channel('query')->info($boundSql);
     }
 }

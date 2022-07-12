@@ -71,7 +71,7 @@ abstract class BaseDataGridPresenter implements PresenterInterface
         return $fields->all();
     }
 
-    private function parseRows($data)
+    final protected function parseRows($data)
     {
         return collect($data->items())->map(function(&$item, $key) use($data) {
             if (method_exists($this, 'customizeRowData')) {

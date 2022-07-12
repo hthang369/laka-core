@@ -5,6 +5,9 @@ namespace Laka\Core\Components\Common;
 use Laka\Core\Components\Component;
 use Laka\Core\Helpers\Classes;
 
+/**
+ * A card is a flexible and extensible content container. It includes options for headers and footers, a wide variety of content, contextual background colors, and powerful display options.
+ */
 class Card extends Component
 {
     public $title;
@@ -25,6 +28,18 @@ class Card extends Component
      */
     public $componentName = 'card';
 
+    /**
+     * @param string $title
+     * @param string $header
+     * @param string $footer
+     * @param string $image
+     * @param string $class
+     * @param bool $noBody
+     * @param string $bodyClass
+     * @param string $imgSrc
+     * @param bool $imgTop
+     * @param bool $imgBottom
+     */
     public function __construct(
         $title = '',
         $header = '',

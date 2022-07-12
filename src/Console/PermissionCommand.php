@@ -83,35 +83,28 @@ class PermissionCommand extends Command
 
         $sectionsHaveParent = [];
         $notExistsParents = [];
-        foreach ($sections as $section) {
-            if (isset($section['parent'])) {
-                $sectionParent = $section['parent'];
-                unset($section['parent']);
-            } else {
-                $sectionParent = null;
-            }
+        $sectionParents = array_filter($sections, function($item) {
+            return !array_key_exists('parent', $item);
+        });
+        $sectionChildrens = array_filter($sections, function($item) {
+            return array_key_exists('parent', $item);
+        });
 
-            $sectionModel = Sections::firstOrCreate($section);
+        // Add parent section
+        foreach ($sectionParents as $section) {
+            $sectionModel = Sections::firstOrCreateNestedSet($section);
 
             $newSectionIds[] = $sectionModel->id;
-
-            if ($sectionParent) {
-                $sectionsHaveParent[] = [
-                    'model'  => $sectionModel,
-                    'parent' => $sectionParent
-                ];
-            }
         }
 
-        // Update parent_id
-        foreach ($sectionsHaveParent as $section) {
-            $parent = Sections::where('code', $section['parent'])->first();
+        // Add children section
+        foreach ($sectionChildrens as $section) {
+            $parent = Sections::findCode($section['parent']);
             if (!$parent) {
                 $notExistsParents[] = $section['parent'];
                 continue;
             }
-            $section['model']->parent_id = $parent->id;
-            $section['model']->save();
+            $parent->appendNode(Sections::newModelInstance($section));
         }
 
         if (!empty($notExistsParents)) {

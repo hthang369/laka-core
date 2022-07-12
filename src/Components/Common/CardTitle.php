@@ -16,6 +16,10 @@ class CardTitle extends Component
      */
     public $componentName = 'card-title';
 
+    /**
+     * @param string $text
+     * @param string $tag
+     */
     public function __construct(
         $text = '',
         $tag = 'h6'

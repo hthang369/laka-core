@@ -1,3 +1,3 @@
-<div {!! $attributes->class([$class]) !!}>
+<{{$tag}} {!! $attributes->class($class) !!}>
     {!! $slot !!}
-</div>
+</{{$tag}}>

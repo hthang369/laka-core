@@ -10,6 +10,9 @@
             data_set($options, 'onclick', "return confirm('$confirmMsg')");
         }
     }
+    if (array_key_exists('data-trigger-confirm', $options)) {
+        $options = array_add($options, 'data-loading', translate('table.loading_text'));
+    }
     $content = blank($icon) ? $text : "<i class='fa {$icon} mr-1'></i>".$text;
 @endphp
 @if ((!blank($action) && !blank($sectionCode)))

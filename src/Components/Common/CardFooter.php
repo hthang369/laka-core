@@ -15,6 +15,9 @@ class CardFooter extends Component
      */
     public $componentName = 'card-footer';
 
+    /**
+     * @param string $text
+     */
     public function __construct(
         $text = ''
     )

@@ -16,6 +16,12 @@ class CardBody extends Component
      */
     public $componentName = 'card-body';
 
+    /**
+     * @param string $tag
+     * @param string $bgVariant
+     * @param string $borderVariant
+     * @param string $title
+     */
     public function __construct(
         $tag = 'div',
         $bgVariant = '',

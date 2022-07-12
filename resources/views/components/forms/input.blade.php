@@ -1,12 +1,18 @@
 @php
-    $options = $attributes->class(['form-control', $class])->getAttributes();
+    $errorClass = $errors->has($name) ? 'is-invalid' : '';
+    $options = $attributes->class(array_filter(['form-control', $class, $errorClass]))->getAttributes();
     $prefix = config('laka-core.prefix');
 @endphp
+@if ($groupClass)
 <div class="{{$groupClass}}">
+@endif
+
 @if (!empty($icon))
 <div class="input-group">
     @if ($prepent)
-    <div class="input-group-prepend">{!! $icon !!}</div>
+    <div class="input-group-prepend">
+        <span class="input-group-text">@icon($icon)</span>
+    </div>
     @endif
 @endif
 
@@ -18,8 +24,13 @@
 
 @if (!empty($icon))
     @if (!$prepent)
-    <div class="input-group-append">{!! $icon !!}</div>
+    <div class="input-group-append">
+        <span class="input-group-text">@icon($icon)</span>
+    </div>
     @endif
 </div>
 @endif
+
+@if ($groupClass)
 </div>
+@endif

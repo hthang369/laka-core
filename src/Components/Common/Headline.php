@@ -12,6 +12,13 @@ class Headline extends Component
     public $trim;
     public $attrs;
 
+    /**
+     * @param array $link
+     * @param string $text
+     * @param int $trim
+     * @param string $tag
+     * @param string $class
+     */
     public function __construct(
         $link = [],
         $text = '',

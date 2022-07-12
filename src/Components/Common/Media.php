@@ -5,6 +5,9 @@ namespace Laka\Core\Components\Common;
 use Laka\Core\Components\Component;
 use Laka\Core\Helpers\Classes;
 
+/**
+ * The media object helps build complex and repetitive components where some media is positioned alongside content that doesn't wrap around said media.
+ */
 class Media extends Component
 {
     public $attrs;
@@ -15,6 +18,14 @@ class Media extends Component
     public $body;
     public $tag;
 
+    /**
+     * @param string $class
+     * @param array $image
+     * @param array $excerpt
+     * @param array $body
+     * @param string $text
+     * @param string $tag
+     */
     public function __construct(
         $class = '',
         $image = [],

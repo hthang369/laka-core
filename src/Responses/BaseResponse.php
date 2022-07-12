@@ -31,7 +31,7 @@ class BaseResponse
 
     public function error(Request $request, $error, $viewName = '', $message = null)
     {
-        return $this->makeResponse($request, 'exception', null, $viewName, $error, $message);
+        return $this->makeResponse($request, 'exception', null, $viewName, array_wrap($error), $message);
     }
 
     public function serverError(Request $request, $error, $viewName = '', $message = null)

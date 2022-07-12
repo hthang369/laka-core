@@ -43,7 +43,7 @@ $prefix = config('laka-core.prefix');
             :current="$pagination['currentPage']"
             :pages="$pagination['pages']"
             :except="$pagination['except']" />
-    @else
+    @elseif (!is_null($pagination))
         {!! $pagination->links() !!}
     @endif
 @show

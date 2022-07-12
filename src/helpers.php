@@ -142,6 +142,9 @@ if (!function_exists('laka_link_method')) {
             $confirmMsg = array_pull($attributesNew, 'data-confirmation-msg');
             data_set($attributesNew, 'onclick', "return confirm('$confirmMsg')");
         }
+        if (array_key_exists('data-trigger-confirm', $attributesNew)) {
+            $attributesNew = array_add($attributesNew, 'data-loading', translate('table.loading_text'));
+        }
 
         if (str_is($method, 'link'))
             return app('html')->{$method}($link, $content, $attributesNew, $secure, $escape);
