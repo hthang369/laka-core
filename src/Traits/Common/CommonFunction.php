@@ -14,7 +14,8 @@ trait CommonFunction
 
     public function getCurrentModuleName()
     {
-        $arr = explode(DIRECTORY_SEPARATOR, get_called_class());
+        $calledClass = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, get_called_class());
+        $arr = explode(DIRECTORY_SEPARATOR, $calledClass);
         return strtolower(data_get($arr, 1));
     }
 
