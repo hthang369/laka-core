@@ -31,7 +31,7 @@ trait ConfiguresGrid
         return config('laka-core.search.param');
     }
 
-    protected function getName() : string
+    public function getName() : string
     {
         return $this->name;
     }

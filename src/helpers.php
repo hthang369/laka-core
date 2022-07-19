@@ -3,6 +3,8 @@
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Laka\Core\Plugins\Highlight\Highlighter;
+use Laka\Core\Plugins\Highlight\Utilities\Functions;
 
 if (!function_exists('get_classes')) {
     function get_classes($classes) {
@@ -66,9 +68,12 @@ if (!function_exists('attributes_get')) {
 }
 
 if (!function_exists('array_css_class')) {
-    function array_css_class($arrClass)
+    function array_css_class($arrClass, $isUnique = false)
     {
-        return Arr::toCssClasses(array_unique($arrClass));
+        if ($isUnique) {
+            $arrClass = array_unique($arrClass);
+        }
+        return Arr::toCssClasses($arrClass);
     }
 }
 
@@ -82,46 +87,30 @@ if ( ! function_exists('highlight_code'))
 	 * @param	string	the text string
 	 * @return	string
 	 */
-	function highlight_code($str)
+	function highlight_code($str, $lang)
 	{
-		/* The highlight string function encodes and highlights
-		 * brackets so we need them to start raw.
-		 *
-		 * Also replace any existing PHP tags to temporary markers
-		 * so they don't accidentally break the string out of PHP,
-		 * and thus, thwart the highlighting.
-		 */
-		$str = str_replace(
-			array('&lt;', '&gt;', '<?', '?>', '<%', '%>', '\\', '</script>'),
-			array('<', '>', 'phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
-			$str
-		);
+		$hl = new Highlighter();
+        // $code = join("\n", array_map('trim', explode("\n", $str)));
+        $code = $str;
+        try {
+            // Highlight some code.
+            $highlighted = $hl->highlight($lang, $code);
 
-		// The highlight_string function requires that the text be surrounded
-		// by PHP tags, which we will remove later
-		$str = highlight_string($str, TRUE);
+            echo "<pre><code class=\"hljs {$highlighted->language}\">";
+            echo $highlighted->value;
+            echo "</code></pre>";
+        }
+        catch (DomainException $e) {
+            // This is thrown if the specified language does not exist
 
-		// Remove our artificially added PHP, and the syntax highlighting that came with it
-		$str = preg_replace(
-			array(
-				'/<span style="color: #([A-Z0-9]+)">&lt;\?php(&nbsp;| )/i',
-				'/(<span style="color: #[A-Z0-9]+">.*?)\?&gt;<\/span>\n<\/span>\n<\/code>/is',
-				'/<span style="color: #[A-Z0-9]+"\><\/span>/i'
-			),
-			array(
-				'<span style="color: #$1">',
-				"$1</span>\n</span>\n</code>",
-				''
-			),
-			$str
-		);
+            echo "<pre><code>";
+            echo htmlentities($code);
+            echo "</code></pre>";
+        }
 
-		// Replace our markers back to PHP tags.
-		return str_replace(
-			array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
-			array('&lt;?', '?&gt;', '&lt;%', '%&gt;', '\\', '&lt;/script&gt;'),
-			$str
-		);
+        $style = Functions::getStyleSheet('paraiso-dark');
+
+        echo "<style>$style</style>";
 	}
 }
 

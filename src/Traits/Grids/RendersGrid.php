@@ -26,6 +26,7 @@ trait RendersGrid
             'data' => array_merge($this->resultData, $data),
             'sectionCode' => $this->getSectionCode()
         ];
+
         return view($this->getGridView(), $newData)->render();
     }
 

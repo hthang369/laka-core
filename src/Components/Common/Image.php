@@ -13,7 +13,6 @@ use Laka\Core\Components\Component;
 class Image extends Component
 {
     public $width;
-    public $fit;
     public $src;
     public $lazyload;
     public $attrs;
@@ -29,7 +28,7 @@ class Image extends Component
     /**
      * @param array $width
      * @param array $height
-     * @param string $fit
+     * @param string $fluid
      * @param string $src
      * @param string $alt
      * @param string $id
@@ -39,19 +38,19 @@ class Image extends Component
     public function __construct(
         $width = [],
         $height = [],
-        $fit = '',
+        $fluid = false,
         $src = '',
         $alt = '',
         $id = '',
-        $lazyload = true,
+        $lazyload = false,
         $class = ''
     ) {
         $this->width = $width ?? '';
         $this->height = $height ?? '';
-        $this->fit = $fit ?? '';
         $this->lazyload = $lazyload ?? true;
+
         $this->attrs = [
-            'class' => $class ?? false,
+            'class' => ['img-fluid' => $fluid, $class => !blank($class)],
             'src' => $src ?? '',
             'id' => $id ?? '',
             'alt' => $alt ?? '',
@@ -207,17 +206,17 @@ class Image extends Component
         }
         $this->getSizes();
         // $this->attrs['data-lazy'] = $this->lazyloadActive();
-        if ($this->lazyload)
-            $this->attrs['loading'] = 'lazy';
-        // $this->attrs['data-srcset'] = $this->lazyloadSrc(
-        //     $this->getResizedImageSrc()
-        // );
-
-        // if ($this->lazyload === true) {
-        //     $this->attrs['src'] = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-        // } else {
+        if ($this->lazyload === true) {
+            $this->attrs['data-src'] = $this->lazyloadSrc(
+                $this->getResizedImageSrc()
+            );
+            $this->attrs['src'] = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+            array_push($this->attrs['class'], 'lazyload');
+        } else {
             $this->attrs['src'] = $this->getResizedImageSrc();
-        // }
+        }
+
+        $this->attrs['class'] = array_css_class($this->attrs['class']);
 
         $this->attrs = \array_filter($this->attrs);
 

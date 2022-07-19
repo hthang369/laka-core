@@ -40,7 +40,6 @@ class ProgressBar extends Component
         $showValue = false
     )
     {
-        $bgVariant = blank($variant) ? '' : "bg-{$variant}";
         $valuePercent = ($value * 100) / $max;
         $this->label = '';
         if ($showProgress) {
@@ -55,9 +54,9 @@ class ProgressBar extends Component
         ];
         $this->attrs['class'] = Classes::get([
             'progress-bar',
-            'progress-bar-striped' => ($striped ?? false),
-            'progress-bar-animated' => ($animated ?? false),
-            $bgVariant,
+            'progress-bar-striped' => ($striped ?: ($animated ?: false)),
+            'progress-bar-animated' => ($animated ?: false),
+            "bg-{$variant}" => !blank($variant),
             $this->attrs['class']
         ]);
         $this->attrs = \array_filter($this->attrs);

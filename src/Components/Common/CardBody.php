@@ -8,6 +8,7 @@ class CardBody extends Component
 {
     public $tag;
     public $bodyClass;
+    public $title;
 
     /**
      * The component alias name.
@@ -30,6 +31,7 @@ class CardBody extends Component
     )
     {
         $this->tag = $tag;
+        $this->title = $title;
         $this->bodyClass = array_filter(['card-body', $bgVariant, $borderVariant]);
     }
 }

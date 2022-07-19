@@ -25,13 +25,14 @@ class Link extends Component
      * @param string $class
      */
     public function __construct(
-        $href = '',
+        $href = null,
         $title = '',
         $trim = 0,
         $text = '',
         $collapse = [],
         $target = '',
-        $class = ''
+        $class = '',
+        $to = ''
     )
     {
         $this->text = $text ?? '';
@@ -39,7 +40,7 @@ class Link extends Component
         $this->collapse = $collapse ?? [];
         $this->attrs = [
             'class' => $class ?? '',
-            'href' => $href ?? '',
+            'href' => $href ?? $this->getRoute($to),
             'title' => $title ?? '',
             'target' => $target ?? '',
         ];
@@ -53,5 +54,17 @@ class Link extends Component
             $this->attrs['class']
         ]);
         $this->attrs = \array_filter($this->attrs);
+    }
+
+    private function getRoute($to)
+    {
+        if (blank($to)) return '';
+        $routeName = $to;
+        $params = [];
+        if (is_array($to)) {
+            list($routeName, $params) = $to;
+        }
+
+        return route($routeName, $params);
     }
 }

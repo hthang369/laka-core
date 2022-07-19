@@ -30,7 +30,7 @@ class PhpDocCommentSupport
     public function getPhpDocSummary($className)
     {
         $docBlock = $this->getPhpDocComment($className);
-        return $docBlock->getSummary();
+        return $docBlock ? $docBlock->getSummary() : '';
     }
 
     public function getPhpDocTags($className)
@@ -52,12 +52,21 @@ class PhpDocCommentSupport
         $reflector = new \ReflectionClass($className);
         $params = $reflector->getMethod('__construct')->getParameters();
         return array_map(function($item) use($className) {
+            $docTag = $this->getPhpDocTagsByName($className, $item->getName());
             return [
                 'property' => $item->getName(),
-                'type' => $this->getPhpDocTagsByName($className, $item->getName())->getType(),
-                'default' => $item->getDefaultValue(),
-                'description' => $this->getPhpDocTagsByName($className, $item->getName())->getDescription()->getBodyTemplate()
+                'type' => !$docTag ?: $docTag->getType(),
+                'default' => $this->getDefaultValue($item),
+                'description' => !$docTag ?: $docTag->getDescription()->getBodyTemplate()
             ];
         }, $params);
+    }
+
+    private function getDefaultValue($item)
+    {
+        $defaultValue = $item->getDefaultValue();
+        if (is_bool($defaultValue)) return $defaultValue ? 'true' : 'false';
+        if (is_array($defaultValue)) return '[]';
+        return $defaultValue;
     }
 }

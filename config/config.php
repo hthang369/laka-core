@@ -22,6 +22,11 @@ use Laka\Core\Components\Common\Headline;
 use Laka\Core\Components\Common\Link;
 use Laka\Core\Components\Common\Media;
 use Laka\Core\Components\Common\Image;
+use Laka\Core\Components\Common\Navbar;
+use Laka\Core\Components\Common\NavbarBrand;
+use Laka\Core\Components\Common\NavbarNav;
+use Laka\Core\Components\Common\NavbarToggle;
+use Laka\Core\Components\Common\NavItem;
 use Laka\Core\Components\Common\Progress;
 use Laka\Core\Components\Common\ProgressBar;
 use Laka\Core\Components\Common\Row;
@@ -207,6 +212,26 @@ return [
         'col' => [
             'view'  => 'components.common.col',
             'class' => Col::class
+        ],
+        'navbar' => [
+            'view'  => 'components.common.navbar',
+            'class' => Navbar::class
+        ],
+        'navbar-nav' => [
+            'view'  => 'components.common.navbar-nav',
+            'class' => NavbarNav::class
+        ],
+        'navbar-brand' => [
+            'view'  => 'components.common.navbar-brand',
+            'class' => NavbarBrand::class
+        ],
+        'navbar-toggle' => [
+            'view'  => 'components.common.navbar-toggle',
+            'class' => NavbarToggle::class
+        ],
+        'nav-item' => [
+            'view'  => 'components.common.nav-item',
+            'class' => NavItem::class
         ],
     ],
     'form-components' => [

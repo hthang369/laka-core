@@ -2,7 +2,6 @@
 
 namespace Laka\Core\Components\Common;
 
-use Illuminate\Support\Arr;
 use Laka\Core\Components\Component;
 
 /**
@@ -11,10 +10,8 @@ use Laka\Core\Components\Component;
 class Button extends Component
 {
     public $text;
-    public $variant;
-    public $type;
     public $btnType;
-    public $btnSize;
+    public $attrs;
 
     /**
      * The component alias name.
@@ -29,23 +26,42 @@ class Button extends Component
      * @param string $text
      * @param string $size
      * @param string $icon
+     * @param bool $block
+     * @param bool $pill
+     * @param bool $squared
+     * @param bool $disabled
      */
     public function __construct(
         $variant = 'secondary',
         $type = 'button',
         $text = '',
         $size = '',
-        $icon = ''
+        $icon = '',
+        $block = false,
+        $pill = false,
+        $squared = false,
+        $disabled = false
     )
     {
         $this->text = $text ?? '';
-        $this->btnType = $this->type = $type ?? '';
+        $this->btnType = $this->type = $type ?? 'button';
         $this->variant = $variant ?? '';
         if (!blank($icon)) {
             $iconClass = !empty($text) ? 'mr-2' : '';
-            $this->text = '<i class="'.Arr::toCssClasses([$icon, $iconClass]).'"></i>'.$this->text;
+            $this->text = '<i class="'.array_css_class([$icon, $iconClass]).'"></i>'.$this->text;
             $this->btnType = 'button';
         }
-        $this->btnSize = !empty($size) ? "btn-$size" : '';
+        $this->attrs = [
+            'class' => array_css_class([
+                'btn',
+                "btn-{$variant}" => !blank($variant),
+                "btn-{$size}" => !blank($size),
+                'btn-block' => $block,
+                'rounded-pill' => $pill,
+                'rounded-0' => $squared,
+            ]),
+            'disabled' => $disabled,
+            'type' => $type
+        ];
     }
 }
